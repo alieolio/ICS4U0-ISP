@@ -3,6 +3,11 @@
  * <h2>Course Info:</h2>
  * ICS4U0 wit Krasteva V.
  *
+ * Version 1 - 05.20.22
+ * Added the start screen to the console and made the buttons for it, however, was unable to overlap the buttons over the background image.
+ *
+ * Version 2 - 05.21.2022
+ *
  * @version 05.20.22
  * @author Alicia Chung
  */
@@ -28,7 +33,7 @@ public class startScreen extends Application {
         primaryStage.setTitle("Starting Screen");
 
         //adding image to background of console
-        FileInputStream input = new FileInputStream("logo (1).png");
+        FileInputStream input = new FileInputStream("startscreen.png");
         Image image = new Image(input);
         ImageView imageView = new ImageView(image);
 
@@ -38,7 +43,6 @@ public class startScreen extends Application {
         buttonM.setFont(font);
         buttonM.setTranslateX(184);
         buttonM.setTranslateY(280);
-        //buttonM.setContentDisplay(ContentDisplay.BOTTOM);
 
         //left button - 'instructions' button
         Button buttonL = new Button("Instructions");
@@ -56,12 +60,21 @@ public class startScreen extends Application {
 
         //adding buttons and image to hbox to display
         HBox hbox = new HBox();
-        //hbox.getChildren().add(imageView);
+        hbox.getChildren().add(imageView);
         hbox.getChildren().add(buttonM);
         hbox.getChildren().add(buttonL);
         hbox.getChildren().add(buttonR);
 
-        Scene scene = new Scene(hbox, 512, 393);
+        /**
+         * <a href="https://stackoverflow.com/questions/27912628/how-to-overlap-buttons-text-over-an-image-with-javafx-8 site </a> (01/12/2015)
+         */
+        StackPane sp = new StackPane();
+        sp.getChildren().addAll(imageView, hbox);
+
+        HBox root = new HBox();
+        root.getChildren().add(sp);
+
+        Scene scene = new Scene(root, 512, 393);
         primaryStage.setScene(scene);
         primaryStage.show();
 
