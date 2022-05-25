@@ -1,0 +1,9 @@
+/* Stylesheet for the Gender Selection Screen */
+.button{
+    -fx-background-color: #c1ccc9;
+    -fx-padding: 3 3 3 3;
+    -fx-background-radius: 0;
+}
+.button:hover{
+    -fx-background-color: #088536;
+}
