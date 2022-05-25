@@ -70,6 +70,12 @@ public class GenSelect extends Application{
         bm.setGraphic(new ImageView(man));
         bm.setTranslateX(x);
         bm.setTranslateY(y);
+        /*
+            credits for everything I learned about styles:
+            https://stackoverflow.com/questions/50210697/how-to-remove-the-rounded-corners-from-javafx-buttons
+            https://stackoverflow.com/questions/4619899/difference-between-a-views-padding-and-margin
+            https://examples.javacodegeeks.com/desktop-java/javafx/javafx-css-tutorial/ 
+         */
         bm.setStyle(
                 "-fx-background-color: lightgrey;" +
                 "-fx-padding: 2 2 2 2;" +
