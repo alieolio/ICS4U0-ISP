@@ -32,37 +32,52 @@ public class startScreen extends Application {
         //making console
         primaryStage.setTitle("Starting Screen");
 
-        //adding image to background of console
+        //adding images
         FileInputStream input = new FileInputStream("startscreen.png");
         Image image = new Image(input);
+        input = new FileInputStream("STARTB.png");
+        Image sb = new Image(input);
+        input = new FileInputStream("instrB.png");
+        Image ib = new Image(input);
+        input = new FileInputStream("exitB1.png");
+        Image eb = new Image(input);
+
+        //adding image to background of console
         ImageView imageView = new ImageView(image);
 
         //middle button - 'start' button
-        Button buttonM = new Button("Start");
-        Font font = Font.font("Courier New", FontWeight.BOLD, 36);
-        buttonM.setFont(font);
-        buttonM.setTranslateX(184);
-        buttonM.setTranslateY(280);
+        Button buttonM = new Button();
+        buttonM.setGraphic(new ImageView(sb));
+        buttonM.setStyle(
+                "-fx-padding: 4 4 4 4;" +
+                "-fx-background-radius: 0;" +
+                "-fx-background-color: #18692e;"
+        );
 
         //left button - 'instructions' button
-        Button buttonL = new Button("Instructions");
-        Font font2 = Font.font("Courier New", FontWeight.BOLD, 17);
-        buttonL.setFont(font2);
-        buttonL.setTranslateX(-140);
-        buttonL.setTranslateY(297);
+        Button buttonL = new Button();
+        buttonL.setGraphic(new ImageView(ib));
+        buttonL.setTranslateY(20);
+        buttonL.setStyle(
+                "-fx-padding: 4 4 4 4;" +
+                "-fx-background-radius: 0;" +
+                "-fx-background-color: #18692e;");
 
         //right button - 'exit' button
-        Button buttonR = new Button("Exit");
-        Font font3 = Font.font("Courier New", FontWeight.BOLD, 27);
-        buttonR.setFont(font3);
-        buttonR.setTranslateX(72);
-        buttonR.setTranslateY(290);
+        Button buttonR = new Button();
+        buttonR.setGraphic(new ImageView(eb));
+        buttonR.setTranslateY(20);
+        buttonR.setStyle(
+                "-fx-padding: 4 4 4 4;" +
+                "-fx-background-radius: 0;" +
+                "-fx-background-color: #18692e;");
 
         //adding buttons and image to hbox to display
-        HBox hbox = new HBox();
-        hbox.getChildren().add(imageView);
-        hbox.getChildren().add(buttonM);
+        HBox hbox = new HBox(17);
+        hbox.setTranslateX(30);
+        hbox.setTranslateY(285);
         hbox.getChildren().add(buttonL);
+        hbox.getChildren().add(buttonM);
         hbox.getChildren().add(buttonR);
 
         /**
