@@ -24,15 +24,14 @@ import java.io.FileInputStream;
 
 /**
  * TO-DO / NOTES
- *   • enter won't do anything if you click it and no
+ *   • format the sources correctly
+ *   • enter won't do anything if you click/hover on it and no
  *     gender is selected
- *   • when you hover over a button the outline will
- *     change from light grey to dark green
  *   • when you select a gender (not just hover) the
  *     colour of the enter button will change (probably
- *     just get a more green tint and it will stay that
- *     way until another gender is selected or enter is
- *     selected
+ *     just get a more green tint and dark green outline
+ *     stays) and it will stay that way until another
+ *     gender is selected or enter is selected
  */
 
 public class GenSelect extends Application{
@@ -70,50 +69,24 @@ public class GenSelect extends Application{
         bm.setGraphic(new ImageView(man));
         bm.setTranslateX(x);
         bm.setTranslateY(y);
-        /*
-            credits for everything I learned about styles:
-            https://stackoverflow.com/questions/50210697/how-to-remove-the-rounded-corners-from-javafx-buttons
-            https://stackoverflow.com/questions/4619899/difference-between-a-views-padding-and-margin
-            https://examples.javacodegeeks.com/desktop-java/javafx/javafx-css-tutorial/ 
-         */
-        bm.setStyle(
-                "-fx-background-color: lightgrey;" +
-                "-fx-padding: 2 2 2 2;" +
-                "-fx-background-radius: 0"
-        );
 
         //middle button - 'woman' button
         Button bw = new Button();
         bw.setGraphic(new ImageView(woman));
         bw.setTranslateX(x);
         bw.setTranslateY(y+15);
-        bw.setStyle(
-                "-fx-background-color: lightgrey;" +
-                "-fx-padding: 2 2 2 2;" +
-                "-fx-background-radius: 0"
-        );
 
         //bottom button - 'gender queer' button
         Button bgq = new Button();
         bgq.setGraphic(new ImageView(gq));
         bgq.setTranslateX(x);
         bgq.setTranslateY(y+15+15);
-        bgq.setStyle(
-                "-fx-background-color: lightgrey;" +
-                "-fx-padding: 2 2 2 2;" +
-                "-fx-background-radius: 0"
-        );
 
         //bottom corner button - 'Enter' button
         Button bc = new Button();
         bc.setGraphic(new ImageView(end));
         bc.setTranslateX(x+200);
         bc.setTranslateY(y+10);
-        bc.setStyle(
-                "-fx-background-color: lightgrey;" +
-                "-fx-padding: 2 2 2 2;" +
-                "-fx-background-radius: 0"
-        );
 
         //adding buttons and image to hbox to display
         VBox box = new VBox();
@@ -132,6 +105,15 @@ public class GenSelect extends Application{
         root.getChildren().add(sp);
 
         Scene scene = new Scene(root, 512, 393);
+
+        //get styles
+        /**
+         *   credits for everything I learned about styles:
+         *   https://stackoverflow.com/questions/50210697/how-to-remove-the-rounded-corners-from-javafx-buttons
+         *   https://stackoverflow.com/questions/4619899/difference-between-a-views-padding-and-margin
+         *   https://examples.javacodegeeks.com/desktop-java/javafx/javafx-css-tutorial/
+         */
+        scene.getStylesheets().add(getClass().getResource("GenSel.css").toExternalForm());
 
         primaryStage.setScene(scene);
         //fix the screen size
