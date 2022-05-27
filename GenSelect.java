@@ -3,20 +3,19 @@
  * <h2>Course Info:</h2>
  * ICS4U0 wit Krasteva V.
  *
- *
- *
- * @version 05.24.22
+ * @version 05.27.22
  * @author Jessica Chen
  */
 package com.latter.thelatter;
 import javafx.application.Application;
 import javafx.scene.*;
 import javafx.scene.control.Button;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
+import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
 import java.io.File;
@@ -34,13 +33,14 @@ import java.io.FileInputStream;
  *     gender is selected or enter is selected
  */
 
-public class GenSelect extends Application{
+public class GenSelect extends Stage{
     /**
      * This method gives lets the user select a gender identity for the game
      * @param primaryStage
      * @throws Exception
      */
-    public void start(Stage primaryStage) throws Exception{
+     public void start(Stage primaryStage) throws Exception{
+     //public GenSelect{
         //making console
         primaryStage.setTitle("The Latter");
 
@@ -65,6 +65,7 @@ public class GenSelect extends Application{
         int y = 115;
 
         //top button - 'Man' button
+        /** credits for ToggleButton https://jenkov.com/tutorials/javafx/togglebutton.html */
         Button bm = new Button();
         bm.setGraphic(new ImageView(man));
         bm.setTranslateX(x);
@@ -85,8 +86,42 @@ public class GenSelect extends Application{
         //bottom corner button - 'Enter' button
         Button bc = new Button();
         bc.setGraphic(new ImageView(end));
-        bc.setTranslateX(x+200);
-        bc.setTranslateY(y+10);
+        bc.setTranslateX(x+200+5);
+        bc.setTranslateY(y+5);
+        //disabled (permanently for now, will eventually
+        // be enabled when a gender is selected)
+        bc.setDisable(true);
+
+        //stuff for buttons
+        // choosing a gender
+        bm.setOnAction(value -> {
+           System.out.println("man");
+           bc.setDisable(false);
+           bm.getStyleClass().add("ch");
+           bw.getStyleClass().clear();
+           bw.getStyleClass().add("button");
+           bgq.getStyleClass().clear();
+           bgq.getStyleClass().add("button");
+        });
+        bw.setOnAction(value -> {
+           System.out.println("woman");
+           bc.setDisable(false);
+           bm.getStyleClass().clear();
+           bm.getStyleClass().add("button");
+           bw.getStyleClass().add("ch");
+           bgq.getStyleClass().clear();
+           bgq.getStyleClass().add("button");
+        });
+        bgq.setOnAction(value -> {
+           System.out.println("gender queer");
+           bc.setDisable(false);
+           bm.getStyleClass().clear();
+           bm.getStyleClass().add("button");
+           bw.getStyleClass().clear();
+           bw.getStyleClass().add("button");
+           bgq.getStyleClass().add("ch");
+        });
+        //enter goes to next screen
 
         //adding buttons and image to hbox to display
         VBox box = new VBox();
@@ -107,11 +142,14 @@ public class GenSelect extends Application{
         Scene scene = new Scene(root, 512, 393);
 
         //get styles
+        // you still have to fix the credits format
         /**
          *   credits for everything I learned about styles:
          *   https://stackoverflow.com/questions/50210697/how-to-remove-the-rounded-corners-from-javafx-buttons
          *   https://stackoverflow.com/questions/4619899/difference-between-a-views-padding-and-margin
          *   https://examples.javacodegeeks.com/desktop-java/javafx/javafx-css-tutorial/
+         *   https://www.vojtechruzicka.com/javafx-css/ (setting classes)
+         *   https://stackoverflow.com/questions/30273020/style-pressed-button-in-javafx (when clicked)
          */
         scene.getStylesheets().add(getClass().getResource("GenSel.css").toExternalForm());
 
@@ -124,13 +162,5 @@ public class GenSelect extends Application{
         //show
         primaryStage.show();
 
-    }
-
-    /**
-     * Main method to run the 'start' method
-     * @param args
-     */
-    public static void main(String[] args) {
-        Application.launch(args);
     }
 }
