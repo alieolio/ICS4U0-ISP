@@ -3,7 +3,7 @@
  * <h2>Course Info:</h2>
  * ICS4U0 wit Krasteva V.
  * <p>
- * Version 2 - 05.27.2022
+ * Version 1 - 05.27.2022
  * This code is reference and will most likely not be used in the final game.
  * The code is used to gain a further understanding of how to create character movement.
  * A new but similar movement system will likely be implemented in the future
