@@ -1,9 +1,13 @@
 /**
  * The Latter, a game aimed to spread awareness about the adversities of gender inequality
  * <h2>Course Info:</h2>
- * ICS4U0 wit Krasteva V.
+ * ICS4U0 with Krasteva V.
+ * 
+ * Gender selection screen to choose the gender of your character
+ * As of version 1.0.0, graphics are complete but other than the 
+ * garphics the buttons do not do anything.
  *
- * @version 05.27.22
+ * @version 1.0.0
  * @author Jessica Chen
  */
 package com.latter.thelatter;
@@ -21,16 +25,10 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.io.FileInputStream;
 
-/**
+/*
  * TO-DO / NOTES
- *   • format the sources correctly
- *   • enter won't do anything if you click/hover on it and no
- *     gender is selected
- *   • when you select a gender (not just hover) the
- *     colour of the enter button will change (probably
- *     just get a more green tint and dark green outline
- *     stays) and it will stay that way until another
- *     gender is selected or enter is selected
+ *   • Hold value of gender selected, this has to be accessible
+ *     other classes
  */
 
 public class GenSelect extends Stage{
@@ -65,7 +63,7 @@ public class GenSelect extends Stage{
         int y = 115;
 
         //top button - 'Man' button
-        /** credits for ToggleButton https://jenkov.com/tutorials/javafx/togglebutton.html */
+        /** credits for <a href= "https://jenkov.com/tutorials/javafx/togglebutton.html"> ToggleButton </a> */
         Button bm = new Button();
         bm.setGraphic(new ImageView(man));
         bm.setTranslateX(x);
@@ -88,12 +86,13 @@ public class GenSelect extends Stage{
         bc.setGraphic(new ImageView(end));
         bc.setTranslateX(x+200+5);
         bc.setTranslateY(y+5);
-        //disabled (permanently for now, will eventually
-        // be enabled when a gender is selected)
+        //disabled (to be enabled when a gender is selected)
         bc.setDisable(true);
 
         //stuff for buttons
         // choosing a gender
+        // printing the gender is just for a visual cue 
+        // that you clicked the button
         bm.setOnAction(value -> {
            System.out.println("man");
            bc.setDisable(false);
@@ -142,14 +141,14 @@ public class GenSelect extends Stage{
         Scene scene = new Scene(root, 512, 393);
 
         //get styles
-        // you still have to fix the credits format
         /**
-         *   credits for everything I learned about styles:
-         *   https://stackoverflow.com/questions/50210697/how-to-remove-the-rounded-corners-from-javafx-buttons
-         *   https://stackoverflow.com/questions/4619899/difference-between-a-views-padding-and-margin
-         *   https://examples.javacodegeeks.com/desktop-java/javafx/javafx-css-tutorial/
-         *   https://www.vojtechruzicka.com/javafx-css/ (setting classes)
-         *   https://stackoverflow.com/questions/30273020/style-pressed-button-in-javafx (when clicked)
+         *   credits for everything learned about styles:
+         *   <ul>
+         *      <li href = "https://stackoverflow.com/questions/50210697/how-to-remove-the-rounded-corners-from-javafx-buttons"> Rectangular Buttons (2018) </li>
+         *      <li href = "https://stackoverflow.com/questions/4619899/difference-between-a-views-padding-and-margin"> Make padding work with design (2011) </li>
+         *      <li href = "https://examples.javacodegeeks.com/desktop-java/javafx/javafx-css-tutorial/"> CSS here and in a stylesheet (05/05/2016) </li>
+         *      <li href = "https://www.vojtechruzicka.com/javafx-css/"> Setting Classes (10/10/2019) </li>
+         *   </ul>
          */
         scene.getStylesheets().add(getClass().getResource("GenSel.css").toExternalForm());
 
