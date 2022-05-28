@@ -1,3 +1,16 @@
+
+   
+/**
+ * The Latter, a game aimed to spread awareness about the adversities of gender inequality
+ * <h2>Course Info:</h2>
+ * ICS4U0 wit Krasteva V.
+ *
+ * Version 1 - 05.27.22
+ * Added the image for the splashscreen and a loading bar
+ * 
+ * @version 05.27.22 - 1
+ * @author Alicia Chung
+ */
 package com.latter.thelatter;
 
 import javafx.application.Application;
