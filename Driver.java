@@ -1,3 +1,16 @@
+/**
+ * The Latter, a game aimed to spread awareness about the adversities of gender inequality
+ * <h2>Course Info:</h2>
+ * ICS4U0 with Krasteva V.
+ * 
+ * Driver Class
+ * As of version 1.0.0, screens are displayed from here,
+ * but there is currently no code for moving between them.
+ *
+ * @version 1.0.0
+ * @author Jessica Chen
+ */
+
 package com.latter.thelatter;
 
 import javafx.application.Application;
@@ -12,6 +25,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 
 public class Driver extends Application{
+    /**
+     * This method shows the screns
+     * 
+     * @param stage where things are displayed
+     * @throws Exception
+     */
     public void start(Stage stage) throws Exception {
         //Parent root = FXMLLoader.load(getClass().getResource("Sample.fxml"));
         //Scene scene = new Scene(root)
@@ -35,8 +54,7 @@ public class Driver extends Application{
     /**
      * The main() method is ignored in correctly deployed JavaFX application.
      * main() serves only as fallback in case the application can not be
-     * launched through deployment artifacts, e.g., in IDEs with limited FX
-     * support. NetBeans ignores main().
+     * launched through deployment artifacts
      *
      * @param args the command line arguments
      */
