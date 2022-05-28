@@ -30,7 +30,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
 /**
- * https://docs.oracle.com/javafx/2/deployment/preloaders.htm
+ * <a href="https://docs.oracle.com/javafx/2/deployment/preloaders.htm site </a> 
  */
 public class SplashScreen extends Application {
     Stage stage;
