@@ -25,7 +25,7 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
-public class startScreen extends Stage {
+public class StartScreen extends Stage {
     /**
      * This method draws and makes the screen for the start, instructions, and exit screen
      * @param primaryStage
