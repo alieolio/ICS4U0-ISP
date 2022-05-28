@@ -7,9 +7,10 @@
  * Added the start screen to the console and made the buttons for it, however, was unable to overlap the buttons over the background image.
  *
  * Version 2 - 05.27.2022
+ * buttons have images and they change brightness when hovered on.
  *
  * @version 05.27.22
- * @author Alicia Chung
+ * @author Alicia Chung, Jessica Chen
  */
 package com.latter.thelatter;
 import javafx.application.Application;
@@ -36,9 +37,9 @@ public class StartScreen extends Stage {
         primaryStage.setTitle("Starting Screen");
 
         /**
-         * credits:
-         * changing based on pseudoclass here (not in a stylesheet)
-         *      https://stackoverflow.com/questions/13074459/javafx-2-and-css-pseudo-classes-setting-hover-attributes-in-setstyle-method
+         * credits for changing based on pseudoclass 
+         * <a href = "https://stackoverflow.com/questions/13074459/javafx-2-and-css-pseudo-classes-setting-hover-attributes-in-setstyle-method">
+         * here </a> (not in a stylesheet)
          */
 
         //adding images
@@ -79,11 +80,6 @@ public class StartScreen extends Stage {
             }
         });
 
-        /*
-        -fx-padding: 4 4 4 4;
-    -fx-background-radius: 0;
-    -fx-background-color: #18692e;
-         */
 
         //left button - 'instructions' button
         Button buttonL = new Button();
