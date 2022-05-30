@@ -1,19 +1,7 @@
-/**
- * The Latter, a game aimed to spread awareness about the adversities of gender inequality
- * <h2>Course Info:</h2>
- * ICS4U0 with Krasteva V.
- * 
- * Driver Class
- * As of version 1.0.0, screens are displayed from here,
- * but there is currently no code for moving between them.
- *
- * @version 1.0.0
- * @author Jessica Chen
- */
-
 package com.latter.thelatter;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -25,36 +13,74 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 
 public class Driver extends Application{
-    /**
-     * This method shows the screns
-     * 
-     * @param stage where things are displayed
-     * @throws Exception
-     */
     public void start(Stage stage) throws Exception {
         //Parent root = FXMLLoader.load(getClass().getResource("Sample.fxml"));
         //Scene scene = new Scene(root)
-        
-        //JUST COMMENT THE ONE YOU DON'T WANT OUT, I STILL HAVEN'T 
+
+        //JUST COMMENT THE ONE YOU DON'T WANT OUT, I STILL HAVEN'T
         // FIGURED OUT HOW TO SWITCH BETWEEN THEM YET
-        
+
+        //set fixed size
+        /*
+        stage.setMaxWidth(512);
+        stage.setMinWidth(512);
+        stage.setMaxHeight(393);
+        stage.setMinHeight(393);
+        */
+
+        // relevant buttons
+        //start screen
+        Button buttonM = new Button();
+        Button buttonL = new Button();
+        Button buttonR = new Button();
+        //gender selection
+        Button bc = new Button();
+
+        // start screen
         startScreen s = new startScreen();
-        s.start(stage);
+        Scene ss = new Scene(s.startS(buttonM, buttonL, buttonR), 512, 393);
+        ss.getStylesheets().add(getClass().getResource("Start.css").toExternalForm());
+        // gender selection screen
+        GenSelect g = new GenSelect();
+        Scene gs = new Scene(g.genSel(bc), 512, 393);
+        gs.getStylesheets().add(getClass().getResource("GenSel.css").toExternalForm());
+
+        // start the thing
+        stage.setScene(ss);
+        stage.setTitle("The Latter");
+        stage.show();
+
+        // actions in the start screen
+        buttonR.setOnAction(e ->
+                Platform.exit()
+        );
+        buttonM.setOnAction(e ->
+                stage.setScene(gs)
+        );
+        // actions in the gender selection screen
+        bc.setOnAction(e ->
+                Platform.exit()
+        );
+
         //while (s.start(stage) != -1){
 
         //}
         // for now it will just move to the next screen
-        GenSelect g = new GenSelect();
-        g.start(stage);
+        /*
 
-        //stage.setScene();
-        //stage.show();
+
+        stage.setScene(gs);
+        stage.setTitle("The Latter");
+        stage.show();
+        */
+
     }
 
     /**
      * The main() method is ignored in correctly deployed JavaFX application.
      * main() serves only as fallback in case the application can not be
-     * launched through deployment artifacts
+     * launched through deployment artifacts, e.g., in IDEs with limited FX
+     * support. NetBeans ignores main().
      *
      * @param args the command line arguments
      */
