@@ -4,7 +4,7 @@
  * ICS4U0 wit Krasteva V.
  * <p>
  * Version 1 - 05.30.2022
- *
+ * <p>
  * Real code that moves the character around a console/screen
  *
  * @version 05.30.22
@@ -12,10 +12,10 @@
  */
 package com.latter.thelatter;
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -23,8 +23,6 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
-
-import static javafx.scene.paint.Color.RED;
 
 public class MovementTest extends Application {
 
@@ -46,11 +44,17 @@ public class MovementTest extends Application {
     /**
      * The sprite
      */
-    Node player;
+    ImageView player;
+
+    ImageView background;
 
     private int locX, locY, velocityX, velocityY;
 
-    private boolean moving;
+    private boolean up, down, left, right;
+
+    private Scene scene;
+
+    private int speed = 5;
 
     /**
      * Main method to run the 'start' method
@@ -72,19 +76,25 @@ public class MovementTest extends Application {
         //sets up the console and the screen
         primaryStage.setTitle("Movement test");
 
-        FileInputStream playerImage = new FileInputStream("player.png");
-        Image a1 = new Image(playerImage);
-        player = new ImageView(a1);
-        Group t2 = new Group(player);
+        FileInputStream bg = new FileInputStream("room 1.png");
+        Image a1 = new Image(bg);
+        background = new ImageView(a1);
 
-        Scene scene = new Scene(t2, LENGTH, WIDTH, RED);
+        FileInputStream playerImage = new FileInputStream("player.png");
+        Image image = new Image(playerImage);
+        player = new ImageView(image);
+        Group group = new Group(background);
+
+        scene = new Scene(group, LENGTH, WIDTH);
+        group.getChildren().add(player);
+
 
         //moves the character when the correct key is pressed
         scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
             @Override
             public void handle(KeyEvent keyEvent) {
                 velStart(keyEvent);
-                movement();
+                setVelocity();
             }
         });
 
@@ -93,12 +103,19 @@ public class MovementTest extends Application {
             @Override
             public void handle(KeyEvent keyEvent) {
                 velStop(keyEvent);
-                movement();
             }
         });
 
         primaryStage.setScene(scene);
         primaryStage.show();
+
+        AnimationTimer timer = new AnimationTimer() {
+            @Override
+            public void handle(long l) {
+                movement();
+            }
+        };
+        timer.start();
     }
 
     /**
@@ -111,22 +128,21 @@ public class MovementTest extends Application {
         //sets the correct velocity
         switch (e.getCode()) {
             case W:
-                velocityY = -10;
+                up = true;
                 break;
             case S:
-                velocityY = 10;
+                down = true;
                 break;
             case A:
-                velocityX = -10;
+                left = true;
                 break;
             case D:
-                velocityX = 10;
+                right = true;
                 break;
         }
     }
 
     /**
-     *
      * Resets the movement speed back to 0 when key is released
      *
      * @param e The key released
@@ -136,37 +152,39 @@ public class MovementTest extends Application {
         //resets velocity
         switch (e.getCode()) {
             case W:
+                up = false;
                 velocityY = 0;
                 break;
             case S:
+                down = false;
                 velocityY = 0;
                 break;
             case A:
+                left = false;
                 velocityX = 0;
                 break;
             case D:
+                right = false;
                 velocityX = 0;
                 break;
         }
     }
 
-//    public boolean startMoving() {
-//        if (KeyEvent.KEY_PRESSED.equals(true))
-//            return true;
-//        return false;
-//    }
+    public void setVelocity() {
+        if (up) velocityY = -speed;
+        if (down) velocityY = speed;
+        if (right) velocityX = speed;
+        if (left) velocityX = -speed;
+    }
 
     /**
-     *
      * Moves the character
-     *
      */
 
     public void movement() {
-//        if (startMoving())
         //ensures in bounds (not fully working)
-            if (locX + velocityX >= 0 && locX + velocityX <= LENGTH /*subtract character width*/
-                    && locY + velocityY >= 0 && locY + velocityY <= WIDTH /*subtract character length*/)
-                player.relocate(locX += velocityX, locY += velocityY);
+        if (locX + velocityX >= -15 && locX + velocityX <= LENGTH - 20 /*subtract character width*/
+                && locY + velocityY >= -15 && locY + velocityY <= WIDTH - 55 /*subtract character length*/)
+            player.relocate(locX += velocityX, locY += velocityY);
     }
 }
