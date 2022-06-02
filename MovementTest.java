@@ -4,6 +4,10 @@
  * ICS4U0 wit Krasteva V.
  * <p>
  * Version 1 - 05.30.2022
+ * Created working code for movement, however it is not smooth
+ * 
+ * Version 2 - 05.30.2022
+ * Made the movement fluid and 8 directional
  * <p>
  * Real code that moves the character around a console/screen
  *
