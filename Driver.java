@@ -4,12 +4,6 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.*;
 import javafx.scene.control.Button;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.event.EventHandler;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 
 public class Driver extends Application{
@@ -37,7 +31,7 @@ public class Driver extends Application{
         Button bc = new Button();
 
         // start screen
-        startScreen s = new startScreen();
+        StartScreen s = new StartScreen();
         Scene ss = new Scene(s.startS(buttonM, buttonL, buttonR), 512, 393);
         ss.getStylesheets().add(getClass().getResource("Start.css").toExternalForm());
         // gender selection screen
@@ -67,8 +61,6 @@ public class Driver extends Application{
         //}
         // for now it will just move to the next screen
         /*
-
-
         stage.setScene(gs);
         stage.setTitle("The Latter");
         stage.show();
