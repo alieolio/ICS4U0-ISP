@@ -31,7 +31,7 @@ import javafx.stage.Stage;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-public class startScreen{
+public class StartScreen{
 
     public HBox startS(Button buttonM, Button buttonL, Button buttonR){
         HBox hbox = new HBox(17);
@@ -65,17 +65,16 @@ public class startScreen{
 
             //middle button - 'start' button
             buttonM.setGraphic(new ImageView(sb));
-            buttonM.setStyle("-fx-padding: 4 4 4 4;" + "-fx-background-radius: 0;" + "-fx-background-color: #18692e;");
+            buttonM.setStyle("-fx-padding: 0 0 0 0;" + "-fx-background-radius: 0;" + "-fx-background-color: #18692e;");
             // way to work with hovered effect here and not in a stylesheet
             buttonM.setOnMouseEntered(new EventHandler<MouseEvent>() {
                 @Override public void handle(MouseEvent mouseEvent) {
                     buttonM.getGraphic().setEffect(hov);
-                    // change image colour thing here
                 }
             });
             buttonM.setOnMouseExited(new EventHandler<MouseEvent>() {
                 @Override public void handle(MouseEvent mouseEvent) {
-                    buttonM.setStyle("-fx-padding: 4 4 4 4;" + "-fx-background-radius: 0;" + "-fx-background-color: #18692e;");
+                    buttonM.setStyle("-fx-padding: 0 0 0 0;" + "-fx-background-radius: 0;" + "-fx-background-color: #18692e;");
                     buttonM.getGraphic().setEffect(norm);
                 }
             });
@@ -83,6 +82,7 @@ public class startScreen{
             //left button - 'instructions' button
             buttonL.setGraphic(new ImageView(ib));
             buttonL.setTranslateY(20);
+            buttonL.setStyle("-fx-padding: 0 0 0 0;" + "-fx-background-radius: 0;" + "-fx-background-color: #18692e;");
             buttonL.setOnMouseEntered(new EventHandler<MouseEvent>() {
                 @Override public void handle(MouseEvent mouseEvent) {
                     buttonL.getGraphic().setEffect(hov);
@@ -91,7 +91,7 @@ public class startScreen{
             });
             buttonL.setOnMouseExited(new EventHandler<MouseEvent>() {
                 @Override public void handle(MouseEvent mouseEvent) {
-                    buttonL.setStyle("-fx-padding: 4 4 4 4;" + "-fx-background-radius: 0;" + "-fx-background-color: #18692e;");
+                    buttonL.setStyle("-fx-padding: 0 0 0 0;" + "-fx-background-radius: 0;" + "-fx-background-color: #18692e;");
                     buttonL.getGraphic().setEffect(norm);
                 }
             });
@@ -99,6 +99,7 @@ public class startScreen{
             //right button - 'exit' button
             buttonR.setGraphic(new ImageView(eb));
             buttonR.setTranslateY(20);
+            buttonR.setStyle("-fx-padding: 0 0 0 0;" + "-fx-background-radius: 0;" + "-fx-background-color: #18692e;");
             buttonR.setOnMouseEntered(new EventHandler<MouseEvent>() {
                 @Override public void handle(MouseEvent mouseEvent) {
                     buttonR.getGraphic().setEffect(hov);
@@ -107,7 +108,7 @@ public class startScreen{
             });
             buttonR.setOnMouseExited(new EventHandler<MouseEvent>() {
                 @Override public void handle(MouseEvent mouseEvent) {
-                    buttonR.setStyle("-fx-padding: 4 4 4 4;" + "-fx-background-radius: 0;" + "-fx-background-color: #18692e;");
+                    buttonR.setStyle("-fx-padding: 0 0 0 0;" + "-fx-background-radius: 0;" + "-fx-background-color: #18692e;");
                     buttonR.getGraphic().setEffect(norm);
                 }
             });
