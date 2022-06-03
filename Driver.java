@@ -4,23 +4,12 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.*;
 import javafx.scene.control.Button;
+import javafx.event.EventHandler;
+import javafx.event.ActionEvent;
 import javafx.stage.Stage;
 
 public class Driver extends Application{
     public void start(Stage stage) throws Exception {
-        //Parent root = FXMLLoader.load(getClass().getResource("Sample.fxml"));
-        //Scene scene = new Scene(root)
-
-        //JUST COMMENT THE ONE YOU DON'T WANT OUT, I STILL HAVEN'T
-        // FIGURED OUT HOW TO SWITCH BETWEEN THEM YET
-
-        //set fixed size
-        /*
-        stage.setMaxWidth(512);
-        stage.setMinWidth(512);
-        stage.setMaxHeight(393);
-        stage.setMinHeight(393);
-        */
 
         // relevant buttons
         //start screen
@@ -29,6 +18,13 @@ public class Driver extends Application{
         Button buttonR = new Button();
         //gender selection
         Button bc = new Button();
+        Button bm = new Button();
+        Button bw = new Button();
+        Button bgq = new Button();
+        //end screen
+        Button ebuttonM = new Button("Replay");
+        Button ebuttonL = new Button("Credits");
+        Button ebuttonR = new Button("Exit");
 
         // start screen
         StartScreen s = new StartScreen();
@@ -36,35 +32,68 @@ public class Driver extends Application{
         ss.getStylesheets().add(getClass().getResource("Start.css").toExternalForm());
         // gender selection screen
         GenSelect g = new GenSelect();
-        Scene gs = new Scene(g.genSel(bc), 512, 393);
+        Scene gs = new Scene(g.genSel(bc, bm, bw, bgq), 512, 393);
         gs.getStylesheets().add(getClass().getResource("GenSel.css").toExternalForm());
+        // end screen
+        EndScreen e = new EndScreen();
+        Scene end = new Scene(e.endS(ebuttonM, ebuttonL, ebuttonR), 512, 393);
 
         // start the thing
         stage.setScene(ss);
         stage.setTitle("The Latter");
         stage.show();
 
-        // actions in the start screen
-        buttonR.setOnAction(e ->
-                Platform.exit()
-        );
-        buttonM.setOnAction(e ->
-                stage.setScene(gs)
-        );
-        // actions in the gender selection screen
-        bc.setOnAction(e ->
-                Platform.exit()
-        );
-
-        //while (s.start(stage) != -1){
-
-        //}
-        // for now it will just move to the next screen
+        // ACTIONS
+        // start screen
+        buttonM.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                // reset gender selection screen
+                bc.setDisable(true);
+                bm.getStyleClass().clear();
+                bm.getStyleClass().add("button");
+                bw.getStyleClass().clear();
+                bw.getStyleClass().add("button");
+                bgq.getStyleClass().clear();
+                bgq.getStyleClass().add("button");
+                // go to gender selection screen
+                stage.setScene(gs);
+            }
+        });
         /*
-        stage.setScene(gs);
-        stage.setTitle("The Latter");
-        stage.show();
+        buttonL.setOnAction(e ->
+                // something to do with instructions
+        );
         */
+        // gender selection screen
+        bc.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                stage.setScene(end);
+            }
+        });
+        // end screen
+        ebuttonM.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                stage.setScene(ss);
+            }
+        });
+
+        // exit actions
+        buttonR.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Platform.exit();
+            }
+        });
+        ebuttonR.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Platform.exit();
+            }
+        });
+
 
     }
 
