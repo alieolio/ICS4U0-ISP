@@ -51,6 +51,16 @@ public class Driver extends Application{
         stage.show();
 
         // ACTIONS
+        /**
+         * CREDITS:
+         * <ul> 
+         *     <li href="https://stackoverflow.com/questions/12804664/how-to-swap-screens-in-a-javafx-application-in-the-controller-class"> swapping screens part 1 </li>
+         *     <li href="https://stackoverflow.com/questions/49287392/javafx-how-to-change-scene-using-a-scene-from-another-class"> swapping screens part 2 </li>
+         *     <li> there should be a part three </li>
+         *     <li href="https://www.cs.scranton.edu/~mccloske/courses/com_line_args_jGrasp.html"> r
+unning javaFX on jGRASP -command line arguments </li>
+         *     <li href="https://stackoverflow.com/questions/54662129/javafx-11-javafx-runtime-components-are-missing"> running javaFX on jGRASP -compiler settings </li>
+         */
         // start screen
         buttonM.setOnAction(new EventHandler<ActionEvent>() {
             @Override
