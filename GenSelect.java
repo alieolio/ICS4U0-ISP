@@ -33,7 +33,7 @@ import java.io.IOException;
  */
 
 public class GenSelect{
-   public VBox genSel(Button bc){
+   public VBox genSel(Button bc, Button bm, Button bw, Button bgq){
        /**
         * <a href="https://stackoverflow.com/questions/27912628/how-to-overlap-buttons-text-over-an-image-with-javafx-8 site </a> (01/12/2015)
         */
@@ -61,27 +61,24 @@ public class GenSelect{
 
            //top button - 'Man' button
            /** credits for <a href= "https://jenkov.com/tutorials/javafx/togglebutton.html"> ToggleButton </a> */
-           Button bm = new Button();
            bm.setGraphic(new ImageView(man));
            bm.setTranslateX(x);
            bm.setTranslateY(y);
 
            //middle button - 'woman' button
-           Button bw = new Button();
            bw.setGraphic(new ImageView(woman));
            bw.setTranslateX(x);
            bw.setTranslateY(y+15);
 
            //bottom button - 'gender queer' button
-           Button bgq = new Button();
            bgq.setGraphic(new ImageView(gq));
            bgq.setTranslateX(x);
            bgq.setTranslateY(y+15+15);
 
            //bottom corner button - 'Enter' button
            bc.setGraphic(new ImageView(end));
-           bc.setTranslateX(x+200+5);
-           bc.setTranslateY(y+5);
+           bc.setTranslateX(x+200);
+           bc.setTranslateY(y+30);
            //disabled (to be enabled when a gender is selected)
            bc.setDisable(true);
 
