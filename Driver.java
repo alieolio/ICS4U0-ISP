@@ -24,15 +24,15 @@ public class Driver extends Application{
         Button bw = new Button();
         Button bgq = new Button();
         // end screen
-        Button ebuttonM = new Button("Replay");
-        Button ebuttonL = new Button("Credits");
-        Button ebuttonR = new Button("Exit");
+        Button ebuttonM = new Button();
+        Button ebuttonL = new Button();
+        Button ebuttonR = new Button();
 
         // SCREENS
         // start screen
         StartScreen s = new StartScreen();
         Scene ss = new Scene(s.startS(buttonM, buttonL, buttonR), 512, 393);
-        ss.getStylesheets().add(getClass().getResource("Start.css").toExternalForm());
+        //ss.getStylesheets().add(getClass().getResource("Start.css").toExternalForm());
         // instructions
         Instructions i = new Instructions();
         Scene is = new Scene(i.instr(b), 512, 393);
