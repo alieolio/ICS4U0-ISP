@@ -1,0 +1,9 @@
+/* styles for the instructions button */
+.button{
+    -fx-background-color: #cbf5d9;
+    -fx-padding: 1 1 1 1;
+    -fx-background-radius: 0;
+}
+.button:hover{
+    -fx-background-color: #088536;
+}
