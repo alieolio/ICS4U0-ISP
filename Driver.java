@@ -11,25 +11,32 @@ import javafx.stage.Stage;
 public class Driver extends Application{
     public void start(Stage stage) throws Exception {
 
-        // relevant buttons
-        //start screen
+        // BUTTONS
+        // start screen
         Button buttonM = new Button();
         Button buttonL = new Button();
         Button buttonR = new Button();
-        //gender selection
+        // instruction
+        Button b = new Button();
+        // gender selection
         Button bc = new Button();
         Button bm = new Button();
         Button bw = new Button();
         Button bgq = new Button();
-        //end screen
+        // end screen
         Button ebuttonM = new Button("Replay");
         Button ebuttonL = new Button("Credits");
         Button ebuttonR = new Button("Exit");
 
+        // SCREENS
         // start screen
         StartScreen s = new StartScreen();
         Scene ss = new Scene(s.startS(buttonM, buttonL, buttonR), 512, 393);
         ss.getStylesheets().add(getClass().getResource("Start.css").toExternalForm());
+        // instructions
+        Instructions i = new Instructions();
+        Scene is = new Scene(i.instr(b), 512, 393);
+        is.getStylesheets().add(getClass().getResource("instr.css").toExternalForm());
         // gender selection screen
         GenSelect g = new GenSelect();
         Scene gs = new Scene(g.genSel(bc, bm, bw, bgq), 512, 393);
@@ -60,11 +67,20 @@ public class Driver extends Application{
                 stage.setScene(gs);
             }
         });
-        /*
-        buttonL.setOnAction(e ->
-                // something to do with instructions
-        );
-        */
+        buttonL.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                stage.setScene(is);
+            }
+        });
+        // instructions screen
+        b.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                stage.setScene(ss);
+            }
+        });
+
         // gender selection screen
         bc.setOnAction(new EventHandler<ActionEvent>() {
             @Override
