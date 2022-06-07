@@ -68,7 +68,7 @@ public class MovementTest extends Application {
     private boolean movement = true;
 
     private int[] position = {0, 35, 0, 70};
-
+ private Scene scene;
     private int direction;
 
     /**
