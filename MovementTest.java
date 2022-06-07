@@ -54,11 +54,15 @@ public class MovementTest extends Application {
     ImageView player;
 
     ImageView background;
+    
+    ImageView enterFunc;
+    ImageView enterFunc2;
+    ImageView instructions1;
 
     private int locX, locY, velocityX, velocityY;
 
     private boolean up, down, left, right;
-
+   private boolean check = true;
     private final int SPEED = 5;
 
     private boolean movement = true;
@@ -95,9 +99,35 @@ public class MovementTest extends Application {
         Image image = new Image(playerImage);
         player = new ImageView(image);
         Group group = new Group(background);
+//added stuff start --------------------------------------------------------------------
+        FileInputStream ent = new FileInputStream("enter button.png");
+        Image p = new Image(ent);
+        enterFunc = new ImageView(p);
+        enterFunc.setVisible(false);
+        enterFunc.setX(57);
+        enterFunc.setY(0);
 
-        Scene scene = new Scene(group, LENGTH, WIDTH);
+        FileInputStream ent2 = new FileInputStream("enter2.png");
+        Image p2 = new Image(ent2);
+        enterFunc2 = new ImageView(p2);
+        enterFunc2.setVisible(false);
+        enterFunc2.setX(206);
+        enterFunc2.setY(368);
+
+        FileInputStream instruc = new FileInputStream("part 1.png");
+        Image i = new Image(instruc);
+        instructions1 = new ImageView(i);
+        instructions1.setVisible(check);
+        instructions1.setX(12);
+        instructions1.setY(12);
+        //added stuff end --------------------------------------------------------------------
+
+        scene = new Scene(group, LENGTH, WIDTH);
         group.getChildren().add(player);
+
+        group.getChildren().add(enterFunc);
+        group.getChildren().add(enterFunc2);
+        group.getChildren().add(instructions1);
 
 
         //moves the character when the correct key is pressed
@@ -220,6 +250,27 @@ public class MovementTest extends Application {
         for (int i : position)
             System.out.print(i + " ");
         System.out.println();
+        //added stuff start ------------------------------------------------------------------
+        if((locX >= 58 && locX <=157) && (locY >=-50 && locY<=21)) {
+            enterFunc.setVisible(true);
+        }else {
+            enterFunc.setVisible(false);
+        }
+        if((locX >= 207 && locX <=306) && (locY >=323 && locY<=343)) {
+            enterFunc2.setVisible(true);
+        }else {
+            enterFunc2.setVisible(false);
+        }
+        if(check == false) {
+            instructions1.setVisible(false);
+        }
+        //added stuff end --------------------------------------------------------------------
+    }
+
+    public void ins (KeyEvent e) {
+        if(e.getCode().isLetterKey()) {
+            check = false;
+        }
     }
 
     public void collision(int x, int y, int length, int width) {
