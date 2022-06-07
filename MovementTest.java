@@ -9,6 +9,9 @@
  * Version 2 - 05.30.2022
  * Made the movement fluid and 8 directional
  * <p>
+ * Version 3 - 06.6.2022
+ * Trial collision code added to movement (doesn't work)
+ * <p>
  * Real code that moves the character around a console/screen
  *
  * @version 05.30.22
