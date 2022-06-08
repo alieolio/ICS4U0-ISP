@@ -1,188 +1,135 @@
-/**
- * The Latter, a game aimed to spread awareness about the adversities of gender inequality
- * <h2>Course Info:</h2>
- * ICS4U0 wit Krasteva V.
- * <p>
- * Version 1 - 05.27.2022
- * This code is reference and will most likely not be used in the final game.
- * The code is used to gain a further understanding of how to create character movement.
- * A new but similar movement system will likely be implemented in the future
- *
- * @version 05.27.22
- * @author Artemis Chen
- */
 package com.latter.thelatter;
 
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
-import javafx.event.EventHandler;
-import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
-import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.io.FileInputStream;
 
-import static javafx.scene.paint.Color.RED;
+public abstract class Movement extends Application{
 
-public class Movement extends Application {
-
-    /** code taken and adapted from <a href="https://gist.github.com/jewelsea/8321740">Response to a questions about sprite movement</a> (01/08/2013)*/
-
-    /**
-     * The length of the screen
-     */
     final int LENGTH = 512;
-    /**
-     * The width of the screen
-     */
     final int WIDTH = 393;
-    /**
-     * Determines the direction to move the sprite
-     */
+
     private boolean up, down, left, right;
-    /**
-     * The sprite
-     */
-    Node player;
+    private int locX, locY, velocityX, velocityY;
+    private int speed = 5;
+
+    private boolean clear = false;
+
 
     /**
-     * This method draws and makes a screen that contains a movable sprite
+     * Sets the movement speed when the correct key is pressed
      *
-     * @param primaryStage The stage that contains and draws sprites
-     * @throws Exception Prevents crashes
+     * @param e The key pressed
      */
-
-    public void start(Stage primaryStage) throws Exception {
-        //making console
-        primaryStage.setTitle("Movement test");
-
-        //adding image to background of console
-//        FileInputStream background = new FileInputStream("room 1.png");
-//        Image image = new Image(background);
-//        ImageView imageView = new ImageView(image);
-//
-//
-//        Group test = new Group(imageView);
-
-        FileInputStream playerImage = new FileInputStream("player.png");
-        Image a1 = new Image(playerImage);
-        player = new ImageView(a1);
-
-        Group t2 = new Group(player);
-
-        moveHeroTo(LENGTH / 2, WIDTH / 2);
-
-        Scene scene = new Scene(t2, LENGTH, WIDTH, RED);
-
-        scene.setOnKeyPressed(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                switch (event.getCode()) {
-                    case UP:
-                        up = true;
-                        break;
-                    case DOWN:
-                        down = true;
-                        break;
-                    case LEFT:
-                        left = true;
-                        break;
-                    case RIGHT:
-                        right = true;
-                        break;
-                }
-            }
-        });
-
-
-        scene.setOnKeyReleased(new EventHandler<KeyEvent>() {
-            @Override
-            public void handle(KeyEvent event) {
-                switch (event.getCode()) {
-                    case UP:
-                        up = false;
-                        break;
-                    case DOWN:
-                        down = false;
-                        break;
-                    case LEFT:
-                        left = false;
-                        break;
-                    case RIGHT:
-                        right = false;
-                        break;
-                }
-            }
-        });
-
-
-        primaryStage.setScene(scene);
-        primaryStage.show();
-
-        AnimationTimer timer = new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                int len = 0, wid = 0;
-
-                if (up) wid -= 10;
-                if (down) wid += 10;
-                if (right) len += 10;
-                if (left) len -= 10;
-
-                moveHeroBy(len, wid);
-            }
-        };
-        timer.start();
+    public boolean velStart(KeyEvent e) {
+        //sets the correct velocity
+        switch (e.getCode()) {
+            case W:
+                up = true;
+                break;
+            case S:
+                down = true;
+                break;
+            case A:
+                left = true;
+                break;
+            case D:
+                right = true;
+                break;
+            case E:
+                return true;
+        }
+        return false;
     }
 
     /**
-     * This method determines the amount to move the characters by
+     * Resets the movement speed back to 0 when key is released
      *
-     * @param dx the amount to move the character horizontally
-     * @param dy the amount to move the character vertically
+     * @param e The key released
      */
 
-    private void moveHeroBy(int dx, int dy) {
-        if (dx == 0 && dy == 0) return;
-
-        final double cx = player.getBoundsInLocal().getWidth() / 2;
-        final double cy = player.getBoundsInLocal().getHeight() / 2;
-
-        double x = cx + player.getLayoutX() + dx;
-        double y = cy + player.getLayoutY() + dy;
-
-        moveHeroTo(x, y);
-    }
-
-    /**
-     * This method moves the character
-     *
-     * @param x x coordinate on screen
-     * @param y y coordinate on screen
-     */
-
-    private void moveHeroTo(double x, double y) {
-        final double cx = player.getBoundsInLocal().getWidth() / 2;
-        final double cy = player.getBoundsInLocal().getHeight() / 2;
-
-        if (x - cx >= 0 &&
-                x + cx <= LENGTH &&
-                y - cy >= 0 &&
-                y + cy <= WIDTH) {
-            player.relocate(x - cx, y - cy);
+    public void velStop(KeyEvent e) {
+        //resets velocity
+        switch (e.getCode()) {
+            case W:
+                up = false;
+                velocityY = 0;
+                break;
+            case S:
+                down = false;
+                velocityY = 0;
+                break;
+            case A:
+                left = false;
+                velocityX = 0;
+                break;
+            case D:
+                right = false;
+                velocityX = 0;
+                break;
         }
     }
 
-    /**
-     * Main method to run the 'start' method
-     *
-     * @param args
-     */
-    public static void main(String[] args) {
-        Application.launch(args);
+    public void setVelocity() {
+        if (up) velocityY = -speed;
+        if (down) velocityY = speed;
+        if (right) velocityX = speed;
+        if (left) velocityX = -speed;
     }
+
+    /**
+     * Moves the character
+     */
+    public void movement(ImageView player, ImageView enterFunc, ImageView enterFunc2, String room) {
+        
+        /*
+        PROBABLY HAVE TO SET DIFFERENT VALUES FOR ENTERFUNC DEPENDING ON ROOM
+         */
+        /*
+        int e1xm = 0, e1xM = 0, e1ym = 0, e1yM = 0;
+        int e2xm = 0, e2xM = 0, e2ym = 0, e2yM = 0;
+        int state = 0;
+        switch (room) {
+            case "office":
+                e1xm = 58;
+                e1y = -50;
+                state = 0;
+                break;
+            case "boss":
+                state = 1;
+                break;
+            default:
+                e1x = -10;
+                e1y = 200;
+                break;
+        }
+        */
+
+        //ensures in bounds (not fully working)
+        if (locX + velocityX >= -15 && locX + velocityX <= LENGTH - 20 /*subtract character width*/
+                && locY + velocityY >= -15 && locY + velocityY <= WIDTH - 55 /*subtract character length*/)
+            player.relocate(locX += velocityX, locY += velocityY);
+
+        // hovering exit button thing
+        if ((locX >= 58 && locX <= 58 + 99) && (locY >= -50 && locY <= -50 + 71)) {
+            enterFunc.setVisible(true);
+            clear = true;
+        } else if ((locX >= 207 && locX <= 306) && (locY >= 323 && locY <= 343)) {
+            enterFunc2.setVisible(true);
+            clear = true;
+        } else {
+            enterFunc2.setVisible(false);
+            enterFunc.setVisible(false);
+            clear = false;
+        }
+    }
+
+    public boolean getClear(){
+        return clear;
+    }
+
 }
