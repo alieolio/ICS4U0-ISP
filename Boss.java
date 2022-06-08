@@ -1,43 +1,56 @@
 package com.latter.thelatter;
 
-import javafx.application.Application;
-import javafx.scene.*;
-import javafx.scene.control.Button;
+import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.*;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.stage.Stage;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import java.io.FileInputStream;
-import java.io.*;
+import java.io.IOException;
 
-public class Boss extends Application{
+public class Boss{
 
-    public void start (Stage primaryStage) throws Exception{
-        //making console
-        primaryStage.setTitle("Boss' Room");
+    ImageView background = new ImageView();
+    ImageView player = new ImageView();
+    ImageView enterFunc = new ImageView();
+    ImageView enterFunc2 = new ImageView();
 
-        //adding image to background of console
-        ImageView imageView = new ImageView();
-        try {
+    public Group bossO (){
+        Group group = new Group();
+        try{
+            // add background
             FileInputStream input = new FileInputStream("Boss.png");
             Image image = new Image(input);
-            imageView.setImage(image);
-        } catch (IOException e) {}
+            background.setImage(image);
+            group.getChildren().add(background);
+            // other graphics
+            FileInputStream playerImage = new FileInputStream("player.png");
+            image = new Image(playerImage);
+            player.setImage(image);
+            FileInputStream ent = new FileInputStream("enter button.png");
+            Image p = new Image(ent);
+            enterFunc.setImage(p);
+            FileInputStream ent2 = new FileInputStream("enter button.png");
+            Image p2 = new Image(ent2);
+            enterFunc2.setImage(p2);
 
-        //adding buttons and image to hbox to display
-        StackPane sp = new StackPane();
-        sp.getChildren().addAll(imageView);
-        HBox root = new HBox();
-        root.getChildren().add(sp);
+            // positioning enters
+            group.getChildren().add(enterFunc);
+            enterFunc.setVisible(false);
+            enterFunc.setX(57);
+            enterFunc.setY(0);
 
-        Scene scene = new Scene(root, 512, 393);
-        primaryStage.setScene (scene);
-        primaryStage.show();
-    }
+            group.getChildren().add(enterFunc2);
+            enterFunc2.setVisible(false);
+            enterFunc2.setX(106);
+            enterFunc2.setY(368);
 
-    public static void main(String[] args) {
-        Application.launch(args);
+            // adding player to screen
+            group.getChildren().add(player);
+            player.setX(200);
+        } catch (IOException e){
+        }
+
+        return group;
     }
 }
