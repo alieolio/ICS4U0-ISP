@@ -2,17 +2,30 @@
  * The Latter, a game aimed to spread awareness about the adversities of gender inequality
  * <h2>Course Info:</h2>
  * ICS4U0 wit Krasteva V.
+ *
  * <p>
  * Version 1 - 05.30.2022
  * Created working code for movement, however it is not smooth
+ * </p>
+ *
  * <p>
  * Version 2 - 05.30.2022
  * Made the movement fluid and 8 directional
+ * </p>
+ *
  * <p>
  * Version 3 - 06.6.2022
  * Trial collision code added to movement (doesn't work)
+ * </p>
+ *
+ * <p>
+ * Version 4 - 06.7.2022
+ * Finished collision (now fully functional)
+ * </p>
+ *
  * <p>
  * Real code that moves the character around a console/screen
+ * </p>
  *
  * @version 05.30.22
  * @author Artemis Chen
@@ -27,6 +40,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
@@ -53,23 +67,65 @@ public class MovementTest extends Application {
      */
     ImageView player;
 
+    /**
+     * The background
+     */
     ImageView background;
-    
+
     ImageView enterFunc;
     ImageView enterFunc2;
     ImageView instructions1;
 
-    private int locX, locY, velocityX, velocityY;
+    /**
+     * Location of the sprite
+     */
+    private int locX, locY;
 
+    /**
+     * Velocity of the sprite
+     */
+    private int velocityX, velocityY;
+
+    /**
+     * Direction of the movement
+     */
     private boolean up, down, left, right;
-   private boolean check = true;
+    private boolean check = true;
+
+    /**
+     * Speed of the sprite
+     */
     private final int SPEED = 5;
 
-    private boolean movement = true;
+    /**
+     * Environment of the screen
+     */
+    private Scene scene;
 
-    private int[] position = {0, 35, 0, 70};
- private Scene scene;
-    private int direction;
+    /**
+     * Debug variables
+     */
+    int a = 62, b = 68, c = 179, d=183;
+
+    /**
+     * Hit box of the sprite
+     */
+    Rectangle rectangle = new Rectangle(26, 25);
+
+    /**
+     * Debug rectangle for checking hit box
+     */
+    Rectangle checker = new Rectangle(a, b, c, d);
+
+    /**
+     * Ability to move in a certain direction
+     */
+    private boolean canMoveUp = true, canMoveDown = true, canMoveLeft = true, canMoveRight = true;
+
+    /**
+     * Remembering a collision
+     */
+    private boolean collided;
 
     /**
      * Main method to run the 'start' method
@@ -91,52 +147,59 @@ public class MovementTest extends Application {
         //sets up the console and the screen
         primaryStage.setTitle("Movement test");
 
+        //creates background
         FileInputStream bg = new FileInputStream("room 1.png");
         Image a1 = new Image(bg);
         background = new ImageView(a1);
 
+        //creates sprite
         FileInputStream playerImage = new FileInputStream("player.png");
         Image image = new Image(playerImage);
         player = new ImageView(image);
+
+        //creates group containing background and hit boxes
         Group group = new Group(background);
+        group.getChildren().add(rectangle);
+        group.getChildren().add(checker);
+
+
 //added stuff start --------------------------------------------------------------------
-        FileInputStream ent = new FileInputStream("enter button.png");
-        Image p = new Image(ent);
-        enterFunc = new ImageView(p);
-        enterFunc.setVisible(false);
-        enterFunc.setX(57);
-        enterFunc.setY(0);
+//        FileInputStream ent = new FileInputStream("enter button.png");
+//        Image p = new Image(ent);
+//        enterFunc = new ImageView(p);
+//        enterFunc.setVisible(false);
+//        enterFunc.setX(57);
+//        enterFunc.setY(0);
 
-        FileInputStream ent2 = new FileInputStream("enter2.png");
-        Image p2 = new Image(ent2);
-        enterFunc2 = new ImageView(p2);
-        enterFunc2.setVisible(false);
-        enterFunc2.setX(206);
-        enterFunc2.setY(368);
-
-        FileInputStream instruc = new FileInputStream("part 1.png");
-        Image i = new Image(instruc);
-        instructions1 = new ImageView(i);
-        instructions1.setVisible(check);
-        instructions1.setX(12);
-        instructions1.setY(12);
+//        FileInputStream ent2 = new FileInputStream("enter2.png");
+//        Image p2 = new Image(ent2);
+//        enterFunc2 = new ImageView(p2);
+//        enterFunc2.setVisible(false);
+//        enterFunc2.setX(206);
+//        enterFunc2.setY(368);
+//
+//        FileInputStream instruc = new FileInputStream("part 1.png");
+//        Image i = new Image(instruc);
+//        instructions1 = new ImageView(i);
+//        instructions1.setVisible(check);
+//        instructions1.setX(12);
+//        instructions1.setY(12);
         //added stuff end --------------------------------------------------------------------
 
+        //creates scene and adds sprite to group
         scene = new Scene(group, LENGTH, WIDTH);
         group.getChildren().add(player);
 
-        group.getChildren().add(enterFunc);
-        group.getChildren().add(enterFunc2);
-        group.getChildren().add(instructions1);
+//        group.getChildren().add(enterFunc);
+//        group.getChildren().add(enterFunc2);
+//        group.getChildren().add(instructions1);
 
 
-        //moves the character when the correct key is pressed
+        //activates movement
         scene.setOnKeyPressed(new EventHandler<>() {
             @Override
             public void handle(KeyEvent keyEvent) {
                 velStart(keyEvent);
-                setVelocity();
-
             }
         });
 
@@ -152,10 +215,11 @@ public class MovementTest extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
+        //runs the scene
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                movement(movement); 
+                movement();
             }
         };
         timer.start();
@@ -168,30 +232,33 @@ public class MovementTest extends Application {
      */
 
     public void velStart(KeyEvent e) {
-        //sets the correct velocity
-
-        collision(150, 150, 150, 150);
-
-
+        //sets the movement variables to true if possible
         switch (e.getCode()) {
             case W:
-                if (!collision && oppUp) up = true;
+                if (canMoveUp) {
+                    up = true;
+                    canMoveDown = true;
+                }
                 break;
             case S:
-                if (!collision && oppDown) down = true;
+                if (canMoveDown) {
+                    down = true;
+                    canMoveUp = true;
+                }
                 break;
             case A:
-                if (!collision && oppLeft) left = true;
+                if (canMoveLeft) {
+                    left = true;
+                    canMoveRight = true;
+                }
                 break;
             case D:
-                if (!collision && oppRight) right = true;
+                if (canMoveRight) {
+                    right = true;
+                    canMoveLeft = true;
+                }
                 break;
         }
-
-        if (up) direction = 1;
-        else if (down) direction = 2;
-        else if (left) direction = 3;
-        else if (right) direction = 4;
     }
 
     /**
@@ -201,7 +268,7 @@ public class MovementTest extends Application {
      */
 
     public void velStop(KeyEvent e) {
-        //resets velocity
+        //sets movement variables to false
         switch (e.getCode()) {
             case W:
                 up = false;
@@ -218,12 +285,20 @@ public class MovementTest extends Application {
         }
     }
 
+    /**
+     * Changes the velocity of the sprite either left, right, up, or down
+     */
+
     public void setVelocity() {
         if (up) velocityY = -SPEED;
         if (down) velocityY = SPEED;
         if (right) velocityX = SPEED;
         if (left) velocityX = -SPEED;
     }
+
+    /**
+     * Stops the velocity of the sprite
+     */
 
     public void stopVelocity() {
         if (!up) velocityY = 0;
@@ -236,238 +311,100 @@ public class MovementTest extends Application {
      * Moves the character
      */
 
-    public void movement(boolean m) {
-        //ensures in bounds (not fully working)
-        if (m)
-            if (locX + velocityX >= -15 && locX + velocityX <= LENGTH - 20 /*subtract character width*/
-                    && locY + velocityY >= -15 && locY + velocityY <= WIDTH - 55 /*subtract character length*/) {
+    public void movement() {
+        //ensures that the sprite is in bounds
+        if ((up || down || left || right))
+            if (locX + velocityX >= -15 && locX + velocityX <= LENGTH - 20 && locY + velocityY >= -15 && locY + velocityY <= WIDTH - 55) {
+                //detects collision and prevents sprite from moving if there is collision
+                collision(62, 68, 179, 183);
+                //moves sprite
                 player.relocate(locX += velocityX, locY += velocityY);
-                position[0] += velocityX;
-                position[1] += velocityX;
-                position[2] += velocityY;
-                position[3] += velocityY;
+                //moves the hit box of sprite
+                rectangle.setX(locX + 5);
+                rectangle.setY(locY + 43);
             }
-        for (int i : position)
-            System.out.print(i + " ");
-        System.out.println();
+
+        //moves the sprite back in bounds if it ever exits
+        if (locX + velocityX <= -15) {
+            player.relocate(locX += 5, locY);
+        }
+        if (locX + velocityX >= LENGTH - 20) {
+            player.relocate(locX -= 5, locY);
+        }
+        if (locY + velocityY <= -15) {
+            player.relocate(locX, locY += 5);
+        }
+        if (locY + velocityY >= WIDTH - 55) {
+            player.relocate(locX, locY -= 5);
+        }
+
         //added stuff start ------------------------------------------------------------------
-        if((locX >= 58 && locX <=157) && (locY >=-50 && locY<=21)) {
-            enterFunc.setVisible(true);
-        }else {
-            enterFunc.setVisible(false);
-        }
-        if((locX >= 207 && locX <=306) && (locY >=323 && locY<=343)) {
-            enterFunc2.setVisible(true);
-        }else {
-            enterFunc2.setVisible(false);
-        }
-        if(check == false) {
-            instructions1.setVisible(false);
-        }
+//        if((locX >= 58 && locX <=157) && (locY >=-50 && locY<=21)) {
+//            enterFunc.setVisible(true);
+//        }else {
+//            enterFunc.setVisible(false);
+//        }
+//        if((locX >= 207 && locX <=306) && (locY >=323 && locY<=343)) {
+//            enterFunc2.setVisible(true);
+//        }else {
+//            enterFunc2.setVisible(false);
+//        }
+//        if(check == false) {
+//            instructions1.setVisible(false);
+//        }
         //added stuff end --------------------------------------------------------------------
     }
 
-    public void ins (KeyEvent e) {
-        if(e.getCode().isLetterKey()) {
+    public void ins(KeyEvent e) {
+        if (e.getCode().isLetterKey()) {
             check = false;
         }
     }
 
-    public void collision(int x, int y, int length, int width) {
-//        switch (e.getCode()) {
-//            case W:
-//                int futurePosTop = (position[2] - SPEED);
-//                int futurePosTop1 = (position[3] - SPEED);
-//                if ((colYBottom <= futurePosTop || colXBottom <= futurePosTop1)&&
-//                        (colYTop >= futurePosTop || colYTop >= futurePosTop1))
-//                    movement = false;
-//                collision = true;
-//
-//                if ((colYBottom <= futurePosTop || colXBottom <= futurePosTop1)&&
-//                        (colYTop >= futurePosTop || colYTop >= futurePosTop1))
-//                    movement = false;
-//                break;
-//            case S:
-////                int futurePosBottom = (position[2] - SPEED);
-////                int futurePosBottom1 = (position[3] - SPEED);
-////                if (colYBottom <= futurePosBottom || colXBottom <= futurePosBottom1)
-////                    down = false;
-////                collision = true;
-//                break;
-//            case A:
-//                break;
-//            case D:
-//                break;
-//        }
+    /**
+     * Detects if the sprite hit box collides with the boundaries specified
+     *
+     * @param x x coordinate
+     * @param y y coordinate
+     * @param width width
+     * @param height height
+     */
 
-        int futureLeft = (position[0] - SPEED);
-        int futureRight = (position[1] - SPEED);
-        int futureTop = (position[2] - SPEED);
-        int futureBottom = (position[3] - SPEED);
+    public void collision(int x, int y, int width, int height) {
+        //creates rectangle that serves as hit box
+        Rectangle bounds = new Rectangle(x, y, width, height);
 
-//        if (((futurePosBottomRight > y|| futurePosBottomLeft > y) ) && ((futurePosBottomRight  < y + width|| futurePosBottomLeft < y + width)))
-//            movement = false;
+        //if the sprite hit box intersects with this hit box and there is not already a collision
+        if (rectangle.getBoundsInParent().intersects(bounds.getBoundsInParent()) && !collided) {
+            collided = true;
 
-//general statement
-//        if ((futureRight > x) && (futureLeft < x + length) && (futureBottom > y) && (futureTop < y + width))
-//            movement = false;
-
-        //top collision
-//        if (((futureRight > x) && (futureLeft < x + length) && (futureBottom > y)) && (down)) {
-//            down = false;
-//            stopVelocity();
-//        }
-
-        //bottom collision
-//        if (((futureRight > x) && (futureLeft < x + length) && (futureTop < y + width)) && (up)) {
-//            up = false;
-//            stopVelocity();
-//        }
-
-        boolean inBounds = (futureRight > x) && (futureLeft < x + length) && (futureBottom > y) && (futureTop < y + width);
-
-        //use switch statement to reactivate movement in certain directions. ie if the direction is 1 then allow left right down to work
-
-        //change where the collision detection is
-
-        int blocked;
-
-        if (!collision) {
-            switch (direction) {
-                case 1:
-                    opposite();
-                    if (inBounds && up) {
-                        collisionStop();
-                        collision = true;
-                        oppUp = false;
-                        up = false;
-//                    velocityY = 0;
-                    }
-                    break;
-                case 2:
-                    opposite();
-                    if (inBounds && down) {
-                        collisionStop();
-                        collision = true;
-                        oppDown = false;
-                        down = false;
-//                    velocityY = 0;
-                    }
-                    break;
-                case 3:
-                    opposite();
-                    if (inBounds && left) {
-                        left = false;
-                        collisionStop();
-                        collision = true;
-                        oppLeft = false;
-//                    velocityX = 0;
-                    }
-                    break;
-                case 4:
-                    opposite();
-                    if (inBounds && right) {
-                        right = false;
-                        collisionStop();
-                        collision = true;
-                        oppRight = false;
-//                    velocityX = 0;
-                    }
-                    break;
+            //sets the side that collided to false
+            if (up) {
+                up = false;
+                canMoveUp = false;
             }
-        } else if (collision) {
-//            if (!up) {
-//                if (inBounds) up = false;
-//                else up = true;
-//                setVelocity();
-//                collision = false;
-//            }
-            switch (direction) {
-                case 1:
-                    opposite();
-                    if (inBounds && !up) {
-                        setVelocity();
-                        collision = false;
-                        oppUp = true;
-                        up = true;
-//                    velocityY = 0;
-                        break;
-                    }
-                case 2:
-                    opposite();
-                    if (inBounds && !down) {
-                        setVelocity();
-                        collision = false;
-                        oppDown = true;
-                        down = true;
-//                    velocityY = 0;
-                        break;
-                    }
-                case 3:
-                    opposite();
-                    if (inBounds && !left) {
-                        setVelocity();
-                        collision = false;
-                        oppLeft = true;
-                        left = true;
-//                    velocityX = 0;
-                        break;
-                    }
-                case 4:
-                    opposite();
-                    if (inBounds && !right) {
-                        setVelocity();
-                        collision = false;
-                        oppRight = true;
-                        right = true;
-//                    velocityX = 0;
-                        break;
-                    }
+            if (down) {
+                down = false;
+                canMoveDown = false;
+            }
+            if (left) {
+                left = false;
+                canMoveLeft = false;
+            }
+            if (right) {
+                right = false;
+                canMoveRight = false;
             }
         }
+        setVelocity();
 
-
-//bottom left or bottom right between top left and top right and
-
+        //resets the movement when un-collided
+        if (!rectangle.intersects(x, y, width, height)) {
+            canMoveUp = true;
+            canMoveDown = true;
+            canMoveLeft = true;
+            canMoveRight = true;
+            collided = false;
+        }
     }
-
-    private void collisionStop() {
-        if (!up) velocityY = 0;
-        else if (!down) velocityY = 0;
-        else if (!left) velocityX = 0;
-        else if (!right) velocityX = 0;
-    }
-
-    boolean oppUp = true, oppDown = true, oppLeft = true, oppRight = true;
-
-    public void opposite() {
-//        if (up) {
-//            oppDown = true;
-//            oppUp = false;
-//            if (collision) oppUp = true;
-//            return;
-//        }
-//        if (down) {
-//            oppUp = true;
-//            oppDown = false;
-//            if (collision) oppDown = true;
-//            return;
-//        }
-//        if (left) {
-//            oppRight = true;
-//            oppLeft = false;
-//            if (collision) oppLeft = true;
-//            return;
-//        }
-//        if (right) {
-//            oppLeft = true;
-//            oppRight = false;
-//            if (collision) oppRight = true;
-//            return;
-//        }
-    }
-
-    boolean collision = false;
-
-    //public void;
 }
