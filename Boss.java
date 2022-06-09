@@ -15,6 +15,14 @@ public class Boss{
     ImageView enterFunc = new ImageView();
     ImageView enterFunc2 = new ImageView();
 
+    /*
+    int locX = 50, locY = 305;
+    final int LENGTH = 512;
+    final int WIDTH = 393;
+
+    boolean clear = false;
+    int b = 0;
+     */
     public Group bossO (){
         Group group = new Group();
         try{
@@ -37,17 +45,17 @@ public class Boss{
             // positioning enters
             group.getChildren().add(enterFunc);
             enterFunc.setVisible(false);
-            enterFunc.setX(57);
-            enterFunc.setY(0);
+            enterFunc.setX(412);
+            enterFunc.setY(-5);
 
             group.getChildren().add(enterFunc2);
             enterFunc2.setVisible(false);
-            enterFunc2.setX(106);
+            enterFunc2.setX(57);
             enterFunc2.setY(368);
 
             // adding player to screen
             group.getChildren().add(player);
-            player.setX(200);
+            player.relocate(90, 300);
         } catch (IOException e){
         }
 
