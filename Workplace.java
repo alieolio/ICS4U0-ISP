@@ -23,16 +23,6 @@ import javafx.scene.image.ImageView;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-/*
-public void drawDialogueScreen() {
-        Rectangle rectangle = new Rectangle();
-        rectangle.setX(300);
-        rectangle.setY(50);
-        rectangle.setWidth(200);
-        rectangle.setHeight(50);
-    }
- */
-
 public class Workplace{
 
     /** code taken and adapted from
@@ -44,7 +34,7 @@ public class Workplace{
     ImageView player = new ImageView();
     ImageView enterFunc = new ImageView();
     ImageView enterFunc2 = new ImageView();
-    
+
     public Group office () {
         Group group = new Group();
         try {
@@ -63,20 +53,15 @@ public class Workplace{
             FileInputStream ent2 = new FileInputStream("enter button.png");
             Image p2 = new Image(ent2);
             enterFunc2.setImage(p2);
-
-            //added stuff start --------------------------------------------------------------------
+                
             group.getChildren().add(enterFunc);
             enterFunc.setVisible(false);
             enterFunc.setX(57);
             enterFunc.setY(0);
 
-            group.getChildren().add(enterFunc2);
-            enterFunc2.setVisible(false);
-            enterFunc2.setX(206);
-            enterFunc2.setY(368);
-            //added stuff end --------------------------------------------------------------------
-
             group.getChildren().add(player);
+            player.setX(237);
+            player.setY(300);
 
         } catch (IOException e){
 
@@ -84,4 +69,6 @@ public class Workplace{
 
         return group;
     }
+
+
 }
