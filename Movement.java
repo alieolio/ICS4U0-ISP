@@ -199,7 +199,7 @@ public abstract class Movement extends Application{
     /**
      * Moves the character
      */
-    public void movement(int room, ImageView player, ImageView enterFunc, ImageView enterFunc2, ImageView viewF) {
+    public void movement(int room, ImageView player, ImageView enterFunc, ImageView enterFunc2, ImageView other) {
 
         //moves the sprite back in bounds if it ever exits
         if (locX + velocityX <= -15) {
@@ -240,34 +240,33 @@ public abstract class Movement extends Application{
                         rectangle.setY(locY + 43);
                     }
                 // fact things
-                System.out.println(oc);
                 if((locX>=340 && locX<=380) && (locY>=328 && locY<360)) {
                 //first fact -> smallest couch thing
-                    viewF.relocate(310, 295);
-                    viewF.setVisible(true);
+                    other.relocate(310, 295);
+                    other.setVisible(true);
                     oc = 1;
                 } else if((locX>=437 && locX<=512) && (locY>=95 && locY<=150)) {
                 // second fact -> behind couch
-                    viewF.relocate(436, 95);
-                    viewF.setVisible(true);
+                    other.relocate(436, 95);
+                    other.setVisible(true);
                     oc = 2;
                 } else if((locX>=305 && locX<=340) && (locY>=147 && locY<=180)) {
                 //third fact
-                    viewF.relocate(305, 147);
-                    viewF.setVisible(true);
+                    other.relocate(305, 147);
+                    other.setVisible(true);
                     oc = 3;
                 } else if((locX>=50 && locX<=100) && (locY>=205 && locY<=225)) {
                 // fourth fact -> plant
-                    viewF.relocate(38, 300);
-                    viewF.setVisible(true);
+                    other.relocate(38, 300);
+                    other.setVisible(true);
                     oc = 4;
                 } else if((locX>=175 && locX<=200) && (locY>=0 && locY<=30)) {
                 //fifth fact
-                    viewF.relocate(175, 0);
-                    viewF.setVisible(true);
+                    other.relocate(175, 0);
+                    other.setVisible(true);
                     oc = 5;
                 } else {
-                    viewF.setVisible(false);
+                    other.setVisible(false);
                     oc = 0;
                 }
                 // coordinates for exit buttons
@@ -305,14 +304,39 @@ public abstract class Movement extends Application{
                 //ensures that the sprite is in bounds
                 if ((up || down || left || right))
                     if (locX + velocityX >= -15 && locX + velocityX <= LENGTH - 20 && locY + velocityY >= -15 && locY + velocityY <= WIDTH - 55) {
-                        //detects collision and prevents sprite from moving if there is collision
-                        //collision(62, 68, 179, 183);
                         //moves sprite
                         player.relocate(locX += velocityX, locY += velocityY);
                         //moves the hit box of sprite
                         rectangle.setX(locX + 5);
                         rectangle.setY(locY + 43);
                     }
+                // fact things
+                if((locX>=120 && locX<=200) && (locY>=320 && locY<353)) {
+                 //first fact -> bottom middle-left
+                     other.relocate(150, 350);
+                     other.setVisible(true);
+                     oc = 1;
+                 } else if((locX>=0 && locX<=25) && (locY>=330 && locY<=393)) {
+                 //second fact -> bottom left
+                     other.relocate(20, 330);
+                     other.setVisible(true);
+                     oc = 2;
+                 } else if((locX>=170 && locX<=230) && (locY>=200 && locY<=225)) {
+                 //third fact -> centre
+                     other.relocate(170, 200);
+                     other.setVisible(true);
+                     oc = 3;
+                 } else if((locX>=460 && locX<=512) && (locY>=65 && locY<=100)) {
+                 //fourth fact -> top right
+                     other.relocate(390, 65);
+                     other.setVisible(true);
+                     oc = 4;
+                 } else {
+                     other.setVisible(false);
+                     oc = 0;
+                 }
+                
+                 // coordinates for exit buttons
                  x11 = -10;
                  x12 = 15;
                  y11 = -50;
@@ -334,6 +358,7 @@ public abstract class Movement extends Application{
                         rectangle.setX(locX + 5);
                         rectangle.setY(locY + 43);
                     }
+                // coordinates for exit buttons
                  x11 = -10;
                  x12 = 15;
                  y11 = 223;
