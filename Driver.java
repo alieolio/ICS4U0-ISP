@@ -51,7 +51,7 @@ public class Driver extends Movement{
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                movement(1, w.player, w.enterFunc, w.enterFunc2);
+                movement(1, w.player, w.enterFunc, w.enterFunc2, w.viewF);
             }
         };
         // boss' office screen
@@ -60,7 +60,7 @@ public class Driver extends Movement{
         AnimationTimer bT = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                movement(2, bo.player, bo.enterFunc, bo.enterFunc2);
+                movement(2, bo.player, bo.enterFunc, bo.enterFunc2, bo.enterFunc2);
             }
         };
         // schoolroom screen
@@ -69,7 +69,7 @@ public class Driver extends Movement{
         AnimationTimer oT = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                movement(3, cl.player, cl.enterFunc, cl.enterFunc2);
+                movement(3, cl.player, cl.enterFunc, cl.enterFunc2, cl.enterFunc2);
             }
         };
         // principal's room screen
@@ -78,7 +78,7 @@ public class Driver extends Movement{
         AnimationTimer pT = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                movement(4, pl.player, pl.enterFunc, pl.enterFunc2);
+                movement(4, pl.player, pl.enterFunc, pl.enterFunc2, pl.enterFunc2);
             }
         };
         // ladder screen
@@ -87,7 +87,7 @@ public class Driver extends Movement{
         AnimationTimer lA = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                movement(5, esc.player, esc.enterFunc, esc.enterFunc2);
+                movement(5, esc.player, esc.enterFunc, esc.enterFunc2, esc.enterFunc2);
             }
         };
 
@@ -158,16 +158,17 @@ public class Driver extends Movement{
         d1.setOnKeyPressed(new EventHandler<KeyEvent>() { //moves the character when the correct key is pressed
             @Override
             public void handle(KeyEvent keyEvent) {
-                boolean state = velStart(keyEvent);
+                int state = velStart(keyEvent);
                 setVelocity();
-                if (clear && state){ //just key for now, not checking location
-                    System.out.println("d1 b1 press e");
+                if (clear && state == 0){ //just key for now, not checking location
                     timer.stop();
                     locX = 90;
                     locY = 300;
                     bo.player.relocate(90, 300);
                     bT.start();
                     stage.setScene(p1);
+                } else if (state == 1){
+                    w.showF(oc, factCheck);
                 }
             }
         });
@@ -175,6 +176,9 @@ public class Driver extends Movement{
             @Override
             public void handle(KeyEvent keyEvent) {
                 velStop(keyEvent);
+                if (factCheck){
+                     w.showF(oc, factCheck);
+                }
             }
         });
 
@@ -182,16 +186,16 @@ public class Driver extends Movement{
         p1.setOnKeyPressed(new EventHandler<KeyEvent>() { //moves the character when the correct key is pressed
             @Override
             public void handle(KeyEvent keyEvent) {
-                boolean state = velStart(keyEvent);
+                int state = velStart(keyEvent);
                 setVelocity();
-                if (clear && state && bu == 2){ //just key for now, not checking location
+                if (clear && state == 0 && bu == 2){ //just key for now, not checking location
                     locX = 20;
                     locY = 30;
                     cl.player.relocate(20, 30);
                     bT.stop();
                     oT.start();
                     stage.setScene(d2);
-                } else if (clear && state && bu == 1){
+                } else if (clear && state == 0 && bu == 1){
                     locX = 90;
                     locY = -3;
                     w.player.relocate(90, -3);
@@ -212,16 +216,16 @@ public class Driver extends Movement{
         d2.setOnKeyPressed(new EventHandler<KeyEvent>() { //moves the character when the correct key is pressed
             @Override
             public void handle(KeyEvent keyEvent) {
-                boolean state = velStart(keyEvent);
+                int state = velStart(keyEvent);
                 setVelocity();
-                if (clear && state && bu == 2){ //just key for now, not checking location
+                if (clear && state == 0 && bu == 2){ //just key for now, not checking location
                     oT.stop();
                     locX = 453;
                     locY = 30;
                     bo.player.relocate(453, 30);
                     bT.start();
                     stage.setScene(p1);
-                } else if (clear && state && bu == 1){
+                } else if (clear && state == 0 && bu == 1){
                     oT.stop();
                     locX = 20;
                     locY = 270;
@@ -242,16 +246,16 @@ public class Driver extends Movement{
         p2.setOnKeyPressed(new EventHandler<KeyEvent>() { //moves the character when the correct key is pressed
             @Override
             public void handle(KeyEvent keyEvent) {
-                boolean state = velStart(keyEvent);
+                int state = velStart(keyEvent);
                 setVelocity();
-                if (clear && state && bu == 2){ //just key for now, not checking location
+                if (clear && state == 0 && bu == 2){ //just key for now, not checking location
                     pT.stop();
                     locX = 455;
                     locY = 270;
                     cl.player.relocate(455, 270);
                     oT.start();
                     stage.setScene(d2);
-                } else if (clear && state && bu == 1){
+                } else if (clear && state == 0 && bu == 1){
                     pT.stop();
                     locX = 20;
                     locY = 270;
@@ -272,16 +276,16 @@ public class Driver extends Movement{
         er.setOnKeyPressed(new EventHandler<KeyEvent>() { //moves the character when the correct key is pressed
             @Override
             public void handle(KeyEvent keyEvent) {
-                boolean state = velStart(keyEvent);
+                int state = velStart(keyEvent);
                 setVelocity();
-                if (clear && state && bu == 2){ //just key for now, not checking location
+                if (clear && state == 0 && bu == 2){ //just key for now, not checking location
                     lA.stop();
                     locX = 455;
                     locY = 270;
                     pl.player.relocate(455, 270);
                     pT.start();
                     stage.setScene(p2);
-                } else if (clear && state && bu == 1){
+                } else if (clear && state == 0 && bu == 1){
                     lA.stop();
                     stage.setScene(end);
                 }
