@@ -10,6 +10,7 @@ import javafx.event.ActionEvent;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.KeyCode;
 
 public class Driver extends Movement{
 
@@ -69,7 +70,7 @@ public class Driver extends Movement{
         AnimationTimer oT = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                movement(3, cl.player, cl.enterFunc, cl.enterFunc2, cl.enterFunc2);
+                movement(3, cl.player, cl.enterFunc, cl.enterFunc2, cl.viewF);
             }
         };
         // principal's room screen
@@ -78,7 +79,7 @@ public class Driver extends Movement{
         AnimationTimer pT = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                movement(4, pl.player, pl.enterFunc, pl.enterFunc2, pl.enterFunc2);
+                movement(4, pl.player, pl.enterFunc, pl.enterFunc2, pl.play);
             }
         };
         // ladder screen
@@ -158,6 +159,7 @@ public class Driver extends Movement{
         d1.setOnKeyPressed(new EventHandler<KeyEvent>() { //moves the character when the correct key is pressed
             @Override
             public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode() == KeyCode.C) w.setInsOff();
                 int state = velStart(keyEvent);
                 setVelocity();
                 if (clear && state == 0){ //just key for now, not checking location
@@ -216,6 +218,7 @@ public class Driver extends Movement{
         d2.setOnKeyPressed(new EventHandler<KeyEvent>() { //moves the character when the correct key is pressed
             @Override
             public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode() == KeyCode.C) cl.setInsOff();
                 int state = velStart(keyEvent);
                 setVelocity();
                 if (clear && state == 0 && bu == 2){ //just key for now, not checking location
@@ -232,6 +235,8 @@ public class Driver extends Movement{
                     pl.player.relocate(20, 270);
                     pT.start();
                     stage.setScene(p2);
+                } else if (state == 1){
+                    cl.showF(oc);
                 }
             }
         });
@@ -239,6 +244,9 @@ public class Driver extends Movement{
             @Override
             public void handle(KeyEvent keyEvent) {
                 velStop(keyEvent);
+                if (factCheck){
+                    cl.showF(oc);
+                }
             }
         });
 
