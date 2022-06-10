@@ -44,13 +44,14 @@ public class Driver extends Movement{
         GenSelect g = new GenSelect();
         Scene gs = new Scene(g.genSel(bc, bm, bw, bgq), 512, 393);
         gs.getStylesheets().add(getClass().getResource("GenSel.css").toExternalForm());
+
         // workplace screen
         Workplace w = new Workplace();
         Scene d1 = new Scene(w.office(), 512, 393);
         AnimationTimer timer = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                movement(w.player, w.enterFunc, w.enterFunc2, "office");
+                movement(1, w.player, w.enterFunc, w.enterFunc2);
             }
         };
         // boss' office screen
@@ -59,7 +60,34 @@ public class Driver extends Movement{
         AnimationTimer bT = new AnimationTimer() {
             @Override
             public void handle(long l) {
-                movement(bo.player, bo.enterFunc, bo.enterFunc2, "boss");
+                movement(2, bo.player, bo.enterFunc, bo.enterFunc2);
+            }
+        };
+        // schoolroom screen
+        Classroom cl = new Classroom();
+        Scene d2 = new Scene(cl.classR(), 512, 393);
+        AnimationTimer oT = new AnimationTimer() {
+            @Override
+            public void handle(long l) {
+                movement(3, cl.player, cl.enterFunc, cl.enterFunc2);
+            }
+        };
+        // principal's room screen
+        Principal pl = new Principal();
+        Scene p2 = new Scene(pl.pOffice(), 512, 393);
+        AnimationTimer pT = new AnimationTimer() {
+            @Override
+            public void handle(long l) {
+                movement(4, pl.player, pl.enterFunc, pl.enterFunc2);
+            }
+        };
+        // ladder screen
+        Ladder esc = new Ladder();
+        Scene er = new Scene(esc.room(), 512, 393);
+        AnimationTimer lA = new AnimationTimer() {
+            @Override
+            public void handle(long l) {
+                movement(5, esc.player, esc.enterFunc, esc.enterFunc2);
             }
         };
 
@@ -118,6 +146,9 @@ public class Driver extends Movement{
         bc.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
+                locX = 237;
+                locY = 305;
+                w.player.relocate(237, 300);
                 stage.setScene(d1);
                 timer.start();
             }
@@ -129,8 +160,12 @@ public class Driver extends Movement{
             public void handle(KeyEvent keyEvent) {
                 boolean state = velStart(keyEvent);
                 setVelocity();
-                if (getClear() && state){ //just key for now, not checking location
+                if (clear && state){ //just key for now, not checking location
+                    System.out.println("d1 b1 press e");
                     timer.stop();
+                    locX = 90;
+                    locY = 300;
+                    bo.player.relocate(90, 300);
                     bT.start();
                     stage.setScene(p1);
                 }
@@ -149,8 +184,20 @@ public class Driver extends Movement{
             public void handle(KeyEvent keyEvent) {
                 boolean state = velStart(keyEvent);
                 setVelocity();
-                if (getClear() && state){ //just key for now, not checking location
-                    stage.setScene(end);
+                if (clear && state && bu == 2){ //just key for now, not checking location
+                    locX = 20;
+                    locY = 30;
+                    cl.player.relocate(20, 30);
+                    bT.stop();
+                    oT.start();
+                    stage.setScene(d2);
+                } else if (clear && state && bu == 1){
+                    locX = 90;
+                    locY = -3;
+                    w.player.relocate(90, -3);
+                    bT.stop();
+                    timer.start();
+                    stage.setScene(d1);
                 }
             }
         });
@@ -161,6 +208,91 @@ public class Driver extends Movement{
             }
         });
 
+        // deficiency 2
+        d2.setOnKeyPressed(new EventHandler<KeyEvent>() { //moves the character when the correct key is pressed
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                boolean state = velStart(keyEvent);
+                setVelocity();
+                if (clear && state && bu == 2){ //just key for now, not checking location
+                    oT.stop();
+                    locX = 453;
+                    locY = 30;
+                    bo.player.relocate(453, 30);
+                    bT.start();
+                    stage.setScene(p1);
+                } else if (clear && state && bu == 1){
+                    oT.stop();
+                    locX = 20;
+                    locY = 270;
+                    pl.player.relocate(20, 270);
+                    pT.start();
+                    stage.setScene(p2);
+                }
+            }
+        });
+        d2.setOnKeyReleased(new EventHandler<KeyEvent>() { //stops the character when the correct key is released
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                velStop(keyEvent);
+            }
+        });
+
+        // panic 2
+        p2.setOnKeyPressed(new EventHandler<KeyEvent>() { //moves the character when the correct key is pressed
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                boolean state = velStart(keyEvent);
+                setVelocity();
+                if (clear && state && bu == 2){ //just key for now, not checking location
+                    pT.stop();
+                    locX = 455;
+                    locY = 270;
+                    cl.player.relocate(455, 270);
+                    oT.start();
+                    stage.setScene(d2);
+                } else if (clear && state && bu == 1){
+                    pT.stop();
+                    locX = 20;
+                    locY = 270;
+                    esc.player.relocate(20, 270);
+                    lA.start();
+                    stage.setScene(er);
+                }
+            }
+        });
+        p2.setOnKeyReleased(new EventHandler<KeyEvent>() { //stops the character when the correct key is released
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                velStop(keyEvent);
+            }
+        });
+
+        // escape
+        er.setOnKeyPressed(new EventHandler<KeyEvent>() { //moves the character when the correct key is pressed
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                boolean state = velStart(keyEvent);
+                setVelocity();
+                if (clear && state && bu == 2){ //just key for now, not checking location
+                    lA.stop();
+                    locX = 455;
+                    locY = 270;
+                    pl.player.relocate(455, 270);
+                    pT.start();
+                    stage.setScene(p2);
+                } else if (clear && state && bu == 1){
+                    lA.stop();
+                    stage.setScene(end);
+                }
+            }
+        });
+        er.setOnKeyReleased(new EventHandler<KeyEvent>() { //stops the character when the correct key is released
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                velStop(keyEvent);
+            }
+        });
 
         // end screen
         /*
