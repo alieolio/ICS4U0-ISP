@@ -2,9 +2,12 @@ package com.latter.thelatter;
 
 import javafx.application.Application;
 import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Rectangle;
 
+import java.io.IOException;
+import java.io.FileInputStream;
 
 public abstract class Movement extends Application{
 
@@ -16,8 +19,10 @@ public abstract class Movement extends Application{
     int locX = 237, locY = 305;
 
     private boolean check = true;
+    boolean factCheck = false;
     boolean clear = false;
     int bu = 0;
+    int oc = 0;
 
     /**
      * Debug variables
@@ -50,7 +55,7 @@ public abstract class Movement extends Application{
      *
      * @param e The key pressed
      */
-    public boolean velStart(KeyEvent e) {
+    public int velStart(KeyEvent e) {
         //sets movement variables to true if possible
         switch (e.getCode()) {
             case W:
@@ -78,9 +83,11 @@ public abstract class Movement extends Application{
                 }
                 break;
             case E:
-                return true;
+                return 0;
+            case V:
+                return 1;
         }
-        return false;
+        return -1;
     }
 
     /**
@@ -91,6 +98,7 @@ public abstract class Movement extends Application{
 
     public void velStop(KeyEvent e) {
         //sets movement variables to false
+        factCheck = false;
         switch (e.getCode()) {
             case W:
                 up = false;
@@ -107,6 +115,10 @@ public abstract class Movement extends Application{
             case D:
                 right = false;
                 velocityX = 0;
+                break;
+            case V:
+                oc = 0;
+                factCheck = true;
                 break;
         }
     }
@@ -139,9 +151,56 @@ public abstract class Movement extends Application{
 
     /* I•M•P•O•R•T•A•N•T MOVEMENT STUFF------------- */
     /**
+     * Detects if the sprite hit box collides with the boundaries specified
+     *
+     * @param x x coordinate
+     * @param y y coordinate
+     * @param width width
+     * @param height height
+     */ 
+    public void collision(int x, int y, int width, int height) {
+        //creates rectangle that serves as hit box
+        Rectangle bounds = new Rectangle(x, y, width, height);
+    
+        //if the sprite hit box intersects with this hit box and there is not already a collision
+        if (rectangle.getBoundsInParent().intersects(bounds.getBoundsInParent()) && !collided) {
+            collided = true;
+    
+            //sets the side that collided to false
+            if (up) {
+                up = false;
+                canMoveUp = false;
+            }
+            if (down) {
+                down = false;
+                canMoveDown = false;
+            }
+            if (left) {
+                left = false;
+                canMoveLeft = false;
+            }
+            if (right) {
+                right = false;
+                canMoveRight = false;
+            }
+        }
+        setVelocity();
+    
+        //resets the movement when un-collided
+        if (!rectangle.intersects(x, y, width, height)) {
+            canMoveUp = true;
+            canMoveDown = true;
+            canMoveLeft = true;
+            canMoveRight = true;
+            collided = false;
+        }
+    }
+
+    /**
      * Moves the character
      */
-    public void movement(int room, ImageView player, ImageView enterFunc, ImageView enterFunc2) {
+    public void movement(int room, ImageView player, ImageView enterFunc, ImageView enterFunc2, ImageView viewF) {
+
         //moves the sprite back in bounds if it ever exits
         if (locX + velocityX <= -15) {
             player.relocate(locX += 5, locY);
@@ -180,6 +239,38 @@ public abstract class Movement extends Application{
                         rectangle.setX(locX + 5);
                         rectangle.setY(locY + 43);
                     }
+                // fact things
+                System.out.println(oc);
+                if((locX>=340 && locX<=380) && (locY>=328 && locY<360)) {
+                //first fact -> smallest couch thing
+                    viewF.relocate(310, 295);
+                    viewF.setVisible(true);
+                    oc = 1;
+                } else if((locX>=437 && locX<=512) && (locY>=95 && locY<=150)) {
+                // second fact -> behind couch
+                    viewF.relocate(436, 95);
+                    viewF.setVisible(true);
+                    oc = 2;
+                } else if((locX>=305 && locX<=340) && (locY>=147 && locY<=180)) {
+                //third fact
+                    viewF.relocate(305, 147);
+                    viewF.setVisible(true);
+                    oc = 3;
+                } else if((locX>=50 && locX<=100) && (locY>=205 && locY<=225)) {
+                // fourth fact -> plant
+                    viewF.relocate(38, 300);
+                    viewF.setVisible(true);
+                    oc = 4;
+                } else if((locX>=175 && locX<=200) && (locY>=0 && locY<=30)) {
+                //fifth fact
+                    viewF.relocate(175, 0);
+                    viewF.setVisible(true);
+                    oc = 5;
+                } else {
+                    viewF.setVisible(false);
+                    oc = 0;
+                }
+                // coordinates for exit buttons
                 x11 = 58;
                 x12 = 58+99;
                 y11 = -50;
@@ -280,12 +371,10 @@ public abstract class Movement extends Application{
         System.out.println(locX + ", " + locY);
         if ((locX >= x11 & locX <= x12) && (locY >= y11 && locY <= y12)) {
             enterFunc.setVisible(true);
-            System.out.println("in 2");
             clear = true;
             bu = 2;
         } else if ((locX >= x21 && locX <= x22) && (locY >= y21 && locY <= y22)) {
             enterFunc2.setVisible(true);
-            System.out.println("in 1");
             clear = true;
             bu = 1;
         } else {
@@ -295,51 +384,4 @@ public abstract class Movement extends Application{
             bu = 0;
         }
     }
-
-    /**
-     * Detects if the sprite hit box collides with the boundaries specified
-     *
-     * @param x x coordinate
-     * @param y y coordinate
-     * @param width width
-     * @param height height
-     */ 
-    public void collision(int x, int y, int width, int height) {
-        //creates rectangle that serves as hit box
-        Rectangle bounds = new Rectangle(x, y, width, height);
-    
-        //if the sprite hit box intersects with this hit box and there is not already a collision
-        if (rectangle.getBoundsInParent().intersects(bounds.getBoundsInParent()) && !collided) {
-            collided = true;
-    
-            //sets the side that collided to false
-            if (up) {
-                up = false;
-                canMoveUp = false;
-            }
-            if (down) {
-                down = false;
-                canMoveDown = false;
-            }
-            if (left) {
-                left = false;
-                canMoveLeft = false;
-            }
-            if (right) {
-                right = false;
-                canMoveRight = false;
-            }
-        }
-        setVelocity();
-    
-        //resets the movement when un-collided
-        if (!rectangle.intersects(x, y, width, height)) {
-            canMoveUp = true;
-            canMoveDown = true;
-            canMoveLeft = true;
-            canMoveRight = true;
-            collided = false;
-        }
-    }
-
 }
