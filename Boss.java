@@ -15,14 +15,6 @@ public class Boss{
     ImageView enterFunc = new ImageView();
     ImageView enterFunc2 = new ImageView();
 
-    /*
-    int locX = 50, locY = 305;
-    final int LENGTH = 512;
-    final int WIDTH = 393;
-
-    boolean clear = false;
-    int b = 0;
-     */
     public Group bossO (){
         Group group = new Group();
         try{
@@ -59,6 +51,8 @@ public class Boss{
         } catch (IOException e){
         }
 
+        System.out.println("boss " + group.getChildren().toString());
+        System.out.println();
         return group;
     }
 }
