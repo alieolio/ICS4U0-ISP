@@ -34,6 +34,18 @@ public class Workplace{
     ImageView player = new ImageView();
     ImageView enterFunc = new ImageView();
     ImageView enterFunc2 = new ImageView();
+    ImageView viewF = new ImageView();
+    // fact screens
+    ImageView f1 = new ImageView();
+    ImageView f2 = new ImageView();
+    ImageView f3 = new ImageView();
+    ImageView f4 = new ImageView();
+    ImageView f5 = new ImageView();
+
+    /**
+     * Debug variables
+     */
+    int a = 62, b = 68, c = 179, d=183;
 
     public Group office () {
         Group group = new Group();
@@ -53,15 +65,56 @@ public class Workplace{
             FileInputStream ent2 = new FileInputStream("enter button.png");
             Image p2 = new Image(ent2);
             enterFunc2.setImage(p2);
-                
+            FileInputStream img = new FileInputStream("view_button.png");
+            image = new Image(img);
+            viewF.setImage(image);
+            img = new FileInputStream("facts and questions/workplace 1.png");
+            image = new Image(img);
+            f1.setImage(image);
+            img = new FileInputStream("facts and questions/workplace 2.png");
+            image = new Image(img);
+            f2.setImage(image);
+            img = new FileInputStream("facts and questions/workplace 3.png");
+            image = new Image(img);
+            f3.setImage(image);
+            img = new FileInputStream("facts and questions/workplace 4.png");
+            image = new Image(img);
+            f4.setImage(image);
+            img = new FileInputStream("facts and questions/workplace 5.png");
+            image = new Image(img);
+            f5.setImage(image);
+
+
+
             group.getChildren().add(enterFunc);
             enterFunc.setVisible(false);
             enterFunc.setX(57);
             enterFunc.setY(0);
 
+            group.getChildren().add(viewF);
+            viewF.setVisible(false);
+            viewF.relocate(0, 0);
+
             group.getChildren().add(player);
             player.setX(237);
             player.setY(300);
+
+            group.getChildren().add(f1);
+            f1.setVisible(false);
+            f1.relocate(12, 12);
+            group.getChildren().add(f2);
+            f2.setVisible(false);
+            f2.relocate(12, 12);
+            group.getChildren().add(f3);
+            f3.setVisible(false);
+            f3.relocate(12, 12);
+            group.getChildren().add(f4);
+            f4.setVisible(false);
+            f4.relocate(12, 12);
+            group.getChildren().add(f5);
+            f5.setVisible(false);
+            f5.relocate(12, 12);
+
 
         } catch (IOException e){
 
@@ -69,6 +122,31 @@ public class Workplace{
 
         return group;
     }
-
-
+                
+    public void showF (int fact, boolean check){
+        switch (fact){
+            case 1:
+                f1.setVisible(true);
+                break;
+            case 2:
+                f2.setVisible(true);
+                break;
+            case 3:
+                f3.setVisible(true);
+                break;
+            case 4:
+                f4.setVisible(true);
+                break;
+            case 5:
+                f5.setVisible(true);
+                break;
+            default:
+                f1.setVisible(false);
+                f2.setVisible(false);
+                f3.setVisible(false);
+                f4.setVisible(false);
+                f5.setVisible(false);
+                break;
+        }    
+    }
 }
