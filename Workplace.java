@@ -123,7 +123,7 @@ public class Workplace{
         return group;
     }
                 
-    public void showF (int fact, boolean check){
+    public void showF (int fact){
         switch (fact){
             case 1:
                 f1.setVisible(true);
