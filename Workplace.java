@@ -34,6 +34,7 @@ public class Workplace{
     ImageView player = new ImageView();
     ImageView enterFunc = new ImageView();
     ImageView enterFunc2 = new ImageView();
+    ImageView instructions1 = new ImageView();
     ImageView viewF = new ImageView();
     // fact screens
     ImageView f1 = new ImageView();
@@ -41,11 +42,6 @@ public class Workplace{
     ImageView f3 = new ImageView();
     ImageView f4 = new ImageView();
     ImageView f5 = new ImageView();
-
-    /**
-     * Debug variables
-     */
-    int a = 62, b = 68, c = 179, d=183;
 
     public Group office () {
         Group group = new Group();
@@ -65,9 +61,13 @@ public class Workplace{
             FileInputStream ent2 = new FileInputStream("enter button.png");
             Image p2 = new Image(ent2);
             enterFunc2.setImage(p2);
-            FileInputStream img = new FileInputStream("view_button.png");
+            FileInputStream instruc = new FileInputStream("part 1.png");
+            Image i = new Image(instruc);
+            instructions1 = new ImageView(i);
+            FileInputStream img = new FileInputStream("view button.png");
             image = new Image(img);
             viewF.setImage(image);
+            //fact dump
             img = new FileInputStream("facts and questions/workplace 1.png");
             image = new Image(img);
             f1.setImage(image);
@@ -84,21 +84,23 @@ public class Workplace{
             image = new Image(img);
             f5.setImage(image);
 
-
-
+            // positioning enter
             group.getChildren().add(enterFunc);
             enterFunc.setVisible(false);
             enterFunc.setX(57);
             enterFunc.setY(0);
 
+            // view facts notice
             group.getChildren().add(viewF);
             viewF.setVisible(false);
             viewF.relocate(0, 0);
 
+            // adding player to screen
             group.getChildren().add(player);
             player.setX(237);
             player.setY(300);
 
+            // facts to scren
             group.getChildren().add(f1);
             f1.setVisible(false);
             f1.relocate(12, 12);
@@ -115,14 +117,23 @@ public class Workplace{
             f5.setVisible(false);
             f5.relocate(12, 12);
 
+            instructions1.setVisible(true);
+            instructions1.setX(12);
+            instructions1.setY(12);
+            group.getChildren().add(instructions1);
 
         } catch (IOException e){
 
         }
 
+        System.out.println("in workplace " + group.getChildren().toString());
+        System.out.println();
         return group;
     }
-                
+
+    public void setInsOff() {
+        instructions1.setVisible(false);
+    }
     public void showF (int fact){
         switch (fact){
             case 1:
