@@ -168,7 +168,7 @@ public class Driver extends Movement{
                     bT.start();
                     stage.setScene(p1);
                 } else if (state == 1){
-                    w.showF(oc, factCheck);
+                    w.showF(oc);
                 }
             }
         });
@@ -177,7 +177,7 @@ public class Driver extends Movement{
             public void handle(KeyEvent keyEvent) {
                 velStop(keyEvent);
                 if (factCheck){
-                     w.showF(oc, factCheck);
+                     w.showF(oc);
                 }
             }
         });
