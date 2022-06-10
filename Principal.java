@@ -17,6 +17,7 @@ public class Principal{
     ImageView player = new ImageView();
     ImageView enterFunc = new ImageView();
     ImageView enterFunc2 = new ImageView();
+    ImageView play = new ImageView();
 
     public Group pOffice(){
         Group group = new Group();
@@ -40,7 +41,7 @@ public class Principal{
             // positioning enters
             group.getChildren().add(enterFunc);
             enterFunc.setVisible(false);
-            enterFunc.setX(0);
+            enterFunc.setX(-5);
             enterFunc.setY(364);
 
             group.getChildren().add(enterFunc2);
@@ -50,11 +51,12 @@ public class Principal{
 
             // adding player to screen
             group.getChildren().add(player);
-            player.relocate(20, 330);
-
+            player.relocate(90, 300);
         } catch (IOException e){
         }
 
+        System.out.println("principal's office: " + group.getChildren().toString());
+        System.out.println();
         return group;
     }
 
