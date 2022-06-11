@@ -30,6 +30,21 @@ public class Workplace{
      * <a href="https://zetcode.com/javagames/movingsprites/">Moving sprites</a>
      */
 
+    /*
+        Variable Name            Type                        Purpose
+        background               ImageView                   Storing background image
+        player                   ImageView                   Storing character
+        enterFunc                ImageView                   Storing enter pop up for door 1
+        enterFunc2               ImageView                   Storing enter pop up for door 2
+        instructions1            ImageView                   Storing image for room instructions
+        viewF                    ImageView                   Storing view pop up for facts/quizzes
+        f1                       ImageView                   Storing image for fact
+        f2                       ImageView                   Storing image for fact
+        f3                       ImageView                   Storing image for fact
+        f4                       ImageView                   Storing image for fact
+        f5                       ImageView                   Storing image for fact
+    */
+    
     ImageView background = new ImageView();
     ImageView player = new ImageView();
     ImageView enterFunc = new ImageView();
@@ -68,19 +83,19 @@ public class Workplace{
             image = new Image(img);
             viewF.setImage(image);
             //fact dump
-            img = new FileInputStream("facts and questions/workplace 1.png");
+            img = new FileInputStream("workplace 1.png");
             image = new Image(img);
             f1.setImage(image);
-            img = new FileInputStream("facts and questions/workplace 2.png");
+            img = new FileInputStream("workplace 2.png");
             image = new Image(img);
             f2.setImage(image);
-            img = new FileInputStream("facts and questions/workplace 3.png");
+            img = new FileInputStream("workplace 3.png");
             image = new Image(img);
             f3.setImage(image);
-            img = new FileInputStream("facts and questions/workplace 4.png");
+            img = new FileInputStream("workplace 4.png");
             image = new Image(img);
             f4.setImage(image);
-            img = new FileInputStream("facts and questions/workplace 5.png");
+            img = new FileInputStream("workplace 5.png");
             image = new Image(img);
             f5.setImage(image);
 
@@ -161,3 +176,4 @@ public class Workplace{
         }    
     }
 }
+
