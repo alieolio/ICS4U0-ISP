@@ -1,18 +1,21 @@
 package com.latter.thelatter;
 
-import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.Group;
-import javafx.scene.layout.*;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import javafx.stage.Stage;
 import java.io.FileInputStream;
 import java.io.IOException;
 
 public class Principal{
 
+    /*
+        Variable Name            Type                        Purpose
+        background               ImageView                   Setting the background image of the ladder room
+        player                   ImageView                   Storing the image of the player (character)
+        enterFunc                ImageView                   Storing the image for pop up image that tells user how to enter a room
+        enterFunc2               ImageView                   Storing the image for pop up image that tells user how to enter a room (different coordinates to enterFunc)
+        play                     ImageView                   Storing play button
+    */
     ImageView background = new ImageView();
     ImageView player = new ImageView();
     ImageView enterFunc = new ImageView();
