@@ -1,29 +1,39 @@
-package com.latter.thelatter;
-
-import javafx.scene.control.Button;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
-import javafx.scene.layout.VBox;
 import java.io.FileInputStream;
 import java.io.IOException;
 
-import java.io.IOException;
 
 public class Instructions {
+    /**
+     * This method works to create and layout the background images and buttons for the instructions screen.
+     * @param b
+     * @return sp
+     */
     public StackPane instr(Button b){
         StackPane sp = new StackPane();
 
+        /*
+        Variable Name            Type                        Purpose
+        input                    FileInputStream             Setting the image of the game instructions
+        image                    Image                       Storing the instructions image as 'Image'
+        back                     Image                       Storing the image for the 'back' button
+        iv                       ImageView                   Storing the instructions image into 'ImageView'
+         */
+        FileInputStream input;
+        Image image;
+        Image back;
+        ImageView iv;
         try{
-            //get images
-            FileInputStream input = new FileInputStream("instructions.png");
-            Image image = new Image(input);
+            //get images and store the into variables
+            input = new FileInputStream("instructions.png");
+            image = new Image(input);
             input = new FileInputStream("instrback.png");
-            Image back = new Image(input);
+            back = new Image(input);
 
             //adding image to background of console
-            ImageView iv = new ImageView(image);
+            iv = new ImageView(image);
 
             //button
             b.setGraphic(new ImageView(back));
