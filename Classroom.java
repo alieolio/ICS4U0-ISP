@@ -1,19 +1,19 @@
 /**
  * The Latter, a game aimed to spread awareness about the adversities of gender inequality
  * <h2>Course Info:</h2>
- * ICS4U0 wit Krasteva V.
- * <p>
- * Version 1 - 05.30.2022
- * Created working code for movement, however it is not smooth
+ * ICS4U0 with Krasteva V.
  *
- * Version 2 - 05.30.2022
- * Made the movement fluid and 8 directional
- * <p>
- * Real code that moves the character around a console/screen
+ * Version 1 - 05.27.2022
  *
- * @version 05.30.22
- * @author Artemis Chen and Alicia Chung
+ * Version 2 - 06.03.2022
+ *
+ * Version 3 - 06.09.2022
+ * Added the pop-up screen when first entering the room
+ *
+ * @version 06.10.2022
+ * @author Alicia Chung & Artemis Chen
  */
+
 package com.latter.thelatter;
 
 import javafx.scene.Group;
@@ -25,23 +25,74 @@ import java.io.IOException;
 
 public class Classroom{
 
+    /*
+        Variable Name   Type        Description
+        background       ImageView   The background of the scene
+        player           ImageView   The player
+        enterFunc        ImageView   The first entrance to the classroom
+        enterFunc2       ImageView   The second entrance to the classroom
+        viewFunc         ImageView   View the fact pop up
+        f1               ImageView   Fact 1
+        f2               ImageView   Fact 2
+        f3               ImageView   Fact 3
+        f4               ImageView   Fact 4
+     */
+
     /** code taken and adapted from
      * <a href="https://gist.github.com/jewelsea/8321740">Response to a questions about sprite movement</a> (01/08/2013)
      * <a href="https://zetcode.com/javagames/movingsprites/">Moving sprites</a>
      */
 
+    /**
+     * The background of the scene
+     */
     ImageView background = new ImageView();
+
+    /**
+     * The player
+     */
     ImageView player = new ImageView();
+
+    /**
+     * The first entrance to the classroom
+     */
     ImageView enterFunc = new ImageView();
+
+    /**
+     * The second entrance to the classroom
+     */
     ImageView enterFunc2 = new ImageView();
+
+    /**
+     * The second pop up instruction screen
+     */
     ImageView instructions2 = new ImageView();
+    /**
+     * View the fact pop up
+     */
     ImageView viewF = new ImageView();
     // fact screens
+    /**
+     * Fact 1
+     */
     ImageView f1 = new ImageView();
+    /**
+     * Fact 2
+     */
     ImageView f2 = new ImageView();
+    /**
+     * Fact 3
+     */
     ImageView f3 = new ImageView();
+    /**
+     * Fact 4
+     */
     ImageView f4 = new ImageView();
 
+    /**
+     * Constructor for the classroom
+     * @return the group of the classroom
+     */
     public Group classR () {
         Group group = new Group();
         try {
@@ -67,16 +118,16 @@ public class Classroom{
             image = new Image(img);
             viewF.setImage(image);
             //fact dump
-            img = new FileInputStream("facts and questions/education 1.png");
+            img = new FileInputStream("education 1.png");
             image = new Image(img);
             f1.setImage(image);
-            img = new FileInputStream("facts and questions/education 2.png");
+            img = new FileInputStream("education 2.png");
             image = new Image(img);
             f2.setImage(image);
-            img = new FileInputStream("facts and questions/education 3.png");
+            img = new FileInputStream("education 3.png");
             image = new Image(img);
             f3.setImage(image);
-            img = new FileInputStream("facts and questions/education 4.png");
+            img = new FileInputStream("education 4.png");
             image = new Image(img);
             f4.setImage(image);
 
@@ -129,9 +180,17 @@ public class Classroom{
         return group;
     }
 
+    /**
+     * Method to turn off the pop up screen
+     */
     public void setInsOff() {
         instructions2.setVisible(false);
     }
+
+    /**
+     * method to show the facts
+     * @param fact
+     */
     public void showF (int fact){
         switch (fact){
             case 1:
