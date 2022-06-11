@@ -2,15 +2,29 @@ package com.latter.thelatter;
 
 import javafx.application.Application;
 import javafx.scene.image.ImageView;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.shape.Rectangle;
 
-import java.io.IOException;
-import java.io.FileInputStream;
 
 public abstract class Movement extends Application{
-
+    /*
+        Variable Name            Type                        Purpose
+        LENGTH                   final int                   length of console
+        WIDTH                    final int                   width of console
+        up                       private boolean             direction character moves in (WASD)
+        down                     private boolean             direction character moves in (WASD)
+        left                     private boolean             direction character moves in (WASD)
+        right                    private boolean             direction character moves in (WASD)
+        speed                    private int                 speed of character movement
+        velocityX                int                         direction character moves in
+        velocityY                int                         direction character moves in
+        locX                     int                         location of player, x-coordinates
+        locY                     int                         location of player, y-coordinates
+        factCheck                boolean                     boolean to set visibility for facts
+        clear                    boolean                     boolean to set variable after enter button is displayed         
+        bu                       int                         button number
+        oc                       int                         fact number
+    */
     final int LENGTH = 512;
     final int WIDTH = 393;
     private boolean up, down, left, right;
@@ -18,7 +32,6 @@ public abstract class Movement extends Application{
     int velocityX, velocityY;
     int locX = 237, locY = 305;
 
-    private boolean check = true;
     boolean factCheck = false;
     boolean clear = false;
     int bu = 0;
@@ -140,12 +153,6 @@ public abstract class Movement extends Application{
         if (!down) velocityY = 0;
         if (!left) velocityX = 0;
         if (!right) velocityX = 0;
-    }
-
-    public void ins(KeyEvent e) {
-        if (e.getCode().isLetterKey()) {
-            check = false;
-        }
     }
 
 
