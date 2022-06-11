@@ -1,6 +1,23 @@
+/**
+ * The Latter, a game aimed to spread awareness about the adversities of gender inequality
+ * <h2>Course Info:</h2>
+ * ICS4U0 with Krasteva V.
+ * <p>
+ * Version 1 - 05.27.2022
+ *
+ * Version 2 - 06.03.2022
+ *
+ * Version 3 - 06.10.2022
+ * </p>
+ * @version 06.10.2022
+ * @author Jessica Chen
+ */
+
 package com.latter.thelatter;
 
 import javafx.animation.AnimationTimer;
+import javafx.animation.ParallelTransition;
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.*;
@@ -11,8 +28,30 @@ import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.KeyCode;
+import javafx.util.Duration;
 
-public class Driver extends Movement{
+public class Driver extends Movement {
+
+    /*
+        Variable Name   Type        Description
+        count           int         Counts the number of questions asked
+        question        int         The question number
+        points          int         The points you have
+     */
+
+    //quiz question counter
+    /**
+     * The number of questions asked
+     */
+    int count = 0;
+    /**
+     * The question number
+     */
+    int question = 0;
+    /**
+     * The total amount of points
+     */
+    int points = 0;
 
     public void start(Stage stage) throws Exception {
         // BUTTONS
@@ -35,8 +74,7 @@ public class Driver extends Movement{
         // SCREENS
         // start screen
         StartScreen s = new StartScreen();
-        Scene ss = new Scene(s.startS(buttonM, buttonL, buttonR), 512, 393);
-        //ss.getStylesheets().add(getClass().getResource("Start.css").toExternalForm());
+        Scene ss = new Scene(s.screen(buttonM, buttonL, buttonR), 512, 393);
         // instructions
         Instructions i = new Instructions();
         Scene is = new Scene(i.instr(b), 512, 393);
@@ -98,13 +136,14 @@ public class Driver extends Movement{
 
         // start the thing
         stage.setScene(ss);
+        //stage.setScene(p1);
         stage.setTitle("The Latter");
         stage.show();
 
         // ACTIONS
         /**
          * CREDITS:
-         * <ul> 
+         * <ul>
          *     <li href="https://stackoverflow.com/questions/12804664/how-to-swap-screens-in-a-javafx-application-in-the-controller-class"> swapping screens part 1 </li>
          *     <li href="https://stackoverflow.com/questions/49287392/javafx-how-to-change-scene-using-a-scene-from-another-class"> swapping screens part 2 </li>
          *     <li href="https://stackoverflow.com/questions/36551431/can-you-write-two-different-java-fx-scenes-as-two-separate-classes"> swapping screens part 3 </li>
@@ -162,14 +201,14 @@ public class Driver extends Movement{
                 if (keyEvent.getCode() == KeyCode.C) w.setInsOff();
                 int state = velStart(keyEvent);
                 setVelocity();
-                if (clear && state == 0){ //just key for now, not checking location
+                if (clear && state == 0) { //just key for now, not checking location
                     timer.stop();
                     locX = 90;
                     locY = 300;
                     bo.player.relocate(90, 300);
                     bT.start();
                     stage.setScene(p1);
-                } else if (state == 1){
+                } else if (state == 1) {
                     w.showF(oc);
                 }
             }
@@ -178,26 +217,27 @@ public class Driver extends Movement{
             @Override
             public void handle(KeyEvent keyEvent) {
                 velStop(keyEvent);
-                if (factCheck){
-                     w.showF(oc);
+                if (factCheck) {
+                    w.showF(oc);
                 }
             }
         });
 
         // panic 1
+        QuizQuestions qq = new QuizQuestions();
         p1.setOnKeyPressed(new EventHandler<KeyEvent>() { //moves the character when the correct key is pressed
             @Override
             public void handle(KeyEvent keyEvent) {
                 int state = velStart(keyEvent);
                 setVelocity();
-                if (clear && state == 0 && bu == 2){ //just key for now, not checking location
+                if (clear && state == 0 && bu == 2) { //just key for now, not checking location
                     locX = 20;
                     locY = 30;
                     cl.player.relocate(20, 30);
                     bT.stop();
                     oT.start();
                     stage.setScene(d2);
-                } else if (clear && state == 0 && bu == 1){
+                } else if (clear && state == 0 && bu == 1) {
                     locX = 90;
                     locY = -3;
                     w.player.relocate(90, -3);
@@ -221,21 +261,21 @@ public class Driver extends Movement{
                 if (keyEvent.getCode() == KeyCode.C) cl.setInsOff();
                 int state = velStart(keyEvent);
                 setVelocity();
-                if (clear && state == 0 && bu == 2){ //just key for now, not checking location
+                if (clear && state == 0 && bu == 2) { //just key for now, not checking location
                     oT.stop();
                     locX = 453;
                     locY = 30;
                     bo.player.relocate(453, 30);
                     bT.start();
                     stage.setScene(p1);
-                } else if (clear && state == 0 && bu == 1){
+                } else if (clear && state == 0 && bu == 1) {
                     oT.stop();
                     locX = 20;
                     locY = 270;
                     pl.player.relocate(20, 270);
                     pT.start();
                     stage.setScene(p2);
-                } else if (state == 1){
+                } else if (state == 1) {
                     cl.showF(oc);
                 }
             }
@@ -244,7 +284,7 @@ public class Driver extends Movement{
             @Override
             public void handle(KeyEvent keyEvent) {
                 velStop(keyEvent);
-                if (factCheck){
+                if (factCheck) {
                     cl.showF(oc);
                 }
             }
@@ -256,14 +296,14 @@ public class Driver extends Movement{
             public void handle(KeyEvent keyEvent) {
                 int state = velStart(keyEvent);
                 setVelocity();
-                if (clear && state == 0 && bu == 2){ //just key for now, not checking location
+                if (clear && state == 0 && bu == 2) { //just key for now, not checking location
                     pT.stop();
                     locX = 455;
                     locY = 270;
                     cl.player.relocate(455, 270);
                     oT.start();
                     stage.setScene(d2);
-                } else if (clear && state == 0 && bu == 1){
+                } else if (clear && state == 0 && bu == 1) {
                     pT.stop();
                     locX = 20;
                     locY = 270;
@@ -286,15 +326,18 @@ public class Driver extends Movement{
             public void handle(KeyEvent keyEvent) {
                 int state = velStart(keyEvent);
                 setVelocity();
-                if (clear && state == 0 && bu == 2){ //just key for now, not checking location
+                if (clear && state == 0 && bu == 2) { //just key for now, not checking location
                     lA.stop();
                     locX = 455;
                     locY = 270;
                     pl.player.relocate(455, 270);
                     pT.start();
                     stage.setScene(p2);
-                } else if (clear && state == 0 && bu == 1){
+                } else if (clear && state == 0 && bu == 1) {
                     lA.stop();
+                    e.furtherR.setVisible(false);
+                    e.canHelp.setVisible(false);
+                    e.escaped.setVisible(true);
                     stage.setScene(end);
                 }
             }
@@ -307,15 +350,31 @@ public class Driver extends Movement{
         });
 
         // end screen
-        /*
-        YOU NEED TO FIND A WAY TO ACTUALLY RESTART ALL SCENES,
-        SINCE MANY WILL BE IN THE STATE THEY WRE LEFT, WE DON'T
-        WANT THAT
-         */
+        // !!!!!!!!!!!!!!!!!!!!!!!!!! REMEMBER TO CHECK IF ALL SCENES RE RESET
         ebuttonM.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent actionEvent) {
                 stage.setScene(ss);
+            }
+        });
+        end.setOnKeyPressed(new EventHandler<KeyEvent>() {
+            @Override
+            public void handle(KeyEvent ke) {
+                if (ke.getCode() == KeyCode.C) {
+                    if (e.escaped.isVisible()) {
+                        e.escaped.setVisible(false);
+                        e.canHelp.setVisible(true);
+                    } else if (e.canHelp.isVisible()) {
+                        e.canHelp.setVisible(false);
+                        e.furtherR.setVisible(true);
+                    }
+                } else if (ke.getCode() == KeyCode.E) {
+                    if (!e.escaped.isVisible() && !e.canHelp.isVisible()) {
+                        e.furtherR.setVisible(false);
+                        e.canHelp.setVisible(false);
+                        e.escaped.setVisible(false);
+                    }
+                }
             }
         });
 
@@ -334,6 +393,223 @@ public class Driver extends Movement{
         });
 
 
+    }
+
+    // thing for quiz
+    public void pickQuestion(Stage stage, Scene p1, boolean[] questionsAsked, ImageView questionImageView, ImageView questionImageView2, ImageView questionImageView3, ImageView questionImageView4, ImageView questionImageView5, ImageView questionImageView6, ImageView questionImageView7, ImageView correct1, ImageView correct2, ImageView correct3, ImageView incorrect) {
+        question = (int) (Math.random() * 7);
+        while (questionsAsked[question]) {
+            question = (int) (Math.random() * 7);
+        }
+        if (question == 0 && !questionsAsked[0]) {
+            questionImageView.setVisible(true);
+            questionImageView2.setVisible(false);
+            questionImageView3.setVisible(false);
+            questionImageView4.setVisible(false);
+            questionImageView5.setVisible(false);
+            questionImageView6.setVisible(false);
+            questionImageView7.setVisible(false);
+            answer(stage, questionsAsked, p1, questionImageView, questionImageView2, questionImageView3, questionImageView4, questionImageView5, questionImageView6, questionImageView7, correct1, correct2, correct3, incorrect);
+        } else if (question == 1 && !questionsAsked[1]) {
+            questionImageView.setVisible(false);
+            questionImageView2.setVisible(true);
+            questionImageView3.setVisible(false);
+            questionImageView4.setVisible(false);
+            questionImageView5.setVisible(false);
+            questionImageView6.setVisible(false);
+            questionImageView7.setVisible(false);
+            answer(stage, questionsAsked, p1, questionImageView, questionImageView2, questionImageView3, questionImageView4, questionImageView5, questionImageView6, questionImageView7, correct1, correct2, correct3, incorrect);
+        } else if (question == 2 && !questionsAsked[2]) {
+            questionImageView.setVisible(false);
+            questionImageView2.setVisible(false);
+            questionImageView3.setVisible(true);
+            questionImageView4.setVisible(false);
+            questionImageView5.setVisible(false);
+            questionImageView6.setVisible(false);
+            questionImageView7.setVisible(false);
+            answer(stage, questionsAsked, p1, questionImageView, questionImageView2, questionImageView3, questionImageView4, questionImageView5, questionImageView6, questionImageView7, correct1, correct2, correct3, incorrect);
+        } else if (question == 3 && !questionsAsked[3]) {
+            questionImageView.setVisible(false);
+            questionImageView2.setVisible(false);
+            questionImageView3.setVisible(false);
+            questionImageView4.setVisible(true);
+            questionImageView5.setVisible(false);
+            questionImageView6.setVisible(false);
+            questionImageView7.setVisible(false);
+            answer(stage, questionsAsked, p1, questionImageView, questionImageView2, questionImageView3, questionImageView4, questionImageView5, questionImageView6, questionImageView7, correct1, correct2, correct3, incorrect);
+        } else if (question == 4 && !questionsAsked[4]) {
+            questionImageView.setVisible(false);
+            questionImageView2.setVisible(false);
+            questionImageView3.setVisible(false);
+            questionImageView4.setVisible(false);
+            questionImageView5.setVisible(true);
+            questionImageView6.setVisible(false);
+            questionImageView7.setVisible(false);
+            answer(stage, questionsAsked, p1, questionImageView, questionImageView2, questionImageView3, questionImageView4, questionImageView5, questionImageView6, questionImageView7, correct1, correct2, correct3, incorrect);
+        } else if (question == 5 && !questionsAsked[5]) {
+            questionImageView.setVisible(false);
+            questionImageView2.setVisible(false);
+            questionImageView3.setVisible(false);
+            questionImageView4.setVisible(false);
+            questionImageView5.setVisible(false);
+            questionImageView6.setVisible(true);
+            questionImageView7.setVisible(false);
+            answer(stage, questionsAsked, p1, questionImageView, questionImageView2, questionImageView3, questionImageView4, questionImageView5, questionImageView6, questionImageView7, correct1, correct2, correct3, incorrect);
+        } else if (question == 6 && !questionsAsked[6]) {
+            questionImageView.setVisible(false);
+            questionImageView2.setVisible(false);
+            questionImageView3.setVisible(false);
+            questionImageView4.setVisible(false);
+            questionImageView5.setVisible(false);
+            questionImageView6.setVisible(false);
+            questionImageView7.setVisible(true);
+            answer(stage, questionsAsked, p1, questionImageView, questionImageView2, questionImageView3, questionImageView4, questionImageView5, questionImageView6, questionImageView7, correct1, correct2, correct3, incorrect);
+        }
+        questionsAsked[question] = true;
+    }
+
+    public void answer(Stage stage, boolean[] questionsAsked, Scene p1, ImageView questionImageView, ImageView questionImageView2, ImageView questionImageView3, ImageView questionImageView4, ImageView questionImageView5, ImageView questionImageView6, ImageView questionImageView7, ImageView correct1, ImageView correct2, ImageView correct3, ImageView incorrect) {
+        if (question == 0) {
+            p1.setOnKeyPressed(new EventHandler<>() {
+                @Override
+                public void handle(KeyEvent keyEvent) {
+                    if (keyEvent.getCode().equals(KeyCode.DIGIT1)) {
+                        points += 1;
+                        questionImageView.setVisible(false);
+                        correct1.setVisible(true);
+                        reset(stage, questionsAsked, p1, questionImageView, questionImageView2, questionImageView3, questionImageView4, questionImageView5, questionImageView6, questionImageView7, correct1, correct2, correct3, incorrect);
+                    } else if (keyEvent.getCode().equals(KeyCode.DIGIT2) || keyEvent.getCode().equals(KeyCode.DIGIT3) || keyEvent.getCode().equals(KeyCode.DIGIT4)) {
+                        questionImageView.setVisible(false);
+                        incorrect.setVisible(true);
+                        reset(stage, questionsAsked, p1, questionImageView, questionImageView2, questionImageView3, questionImageView4, questionImageView5, questionImageView6, questionImageView7, correct1, correct2, correct3, incorrect);
+                    }
+                }
+            });
+        } else if (question == 1) {
+            p1.setOnKeyPressed(new EventHandler<>() {
+                @Override
+                public void handle(KeyEvent keyEvent) {
+                    if (keyEvent.getCode().equals(KeyCode.DIGIT4)) {
+                        points += 3;
+                        questionImageView2.setVisible(false);
+                        correct3.setVisible(true);
+                        reset(stage, questionsAsked, p1, questionImageView, questionImageView2, questionImageView3, questionImageView4, questionImageView5, questionImageView6, questionImageView7, correct1, correct2, correct3, incorrect);
+                    } else if (keyEvent.getCode().equals(KeyCode.DIGIT1) || keyEvent.getCode().equals(KeyCode.DIGIT2) || keyEvent.getCode().equals(KeyCode.DIGIT3)) {
+                        questionImageView2.setVisible(false);
+                        incorrect.setVisible(true);
+                        reset(stage, questionsAsked, p1, questionImageView, questionImageView2, questionImageView3, questionImageView4, questionImageView5, questionImageView6, questionImageView7, correct1, correct2, correct3, incorrect);
+                    }
+                }
+            });
+        } else if (question == 2) {
+            p1.setOnKeyPressed(new EventHandler<>() {
+                @Override
+                public void handle(KeyEvent keyEvent) {
+                    if (keyEvent.getCode().equals(KeyCode.DIGIT2)) {
+                        points += 2;
+                        questionImageView3.setVisible(false);
+                        correct2.setVisible(true);
+                        reset(stage, questionsAsked, p1, questionImageView, questionImageView2, questionImageView3, questionImageView4, questionImageView5, questionImageView6, questionImageView7, correct1, correct2, correct3, incorrect);
+                    } else if (keyEvent.getCode().equals(KeyCode.DIGIT1) || keyEvent.getCode().equals(KeyCode.DIGIT3) || keyEvent.getCode().equals(KeyCode.DIGIT4)) {
+                        questionImageView3.setVisible(false);
+                        incorrect.setVisible(true);
+                        reset(stage, questionsAsked, p1, questionImageView, questionImageView2, questionImageView3, questionImageView4, questionImageView5, questionImageView6, questionImageView7, correct1, correct2, correct3, incorrect);
+                    }
+                }
+            });
+        } else if (question == 3) {
+            p1.setOnKeyPressed(new EventHandler<>() {
+                @Override
+                public void handle(KeyEvent keyEvent) {
+                    if (keyEvent.getCode().equals(KeyCode.DIGIT3)) {
+                        points += 1;
+                        questionImageView4.setVisible(false);
+                        correct1.setVisible(true);
+                        reset(stage, questionsAsked, p1, questionImageView, questionImageView2, questionImageView3, questionImageView4, questionImageView5, questionImageView6, questionImageView7, correct1, correct2, correct3, incorrect);
+                    } else if (keyEvent.getCode().equals(KeyCode.DIGIT1) || keyEvent.getCode().equals(KeyCode.DIGIT2) || keyEvent.getCode().equals(KeyCode.DIGIT4)) {
+                        questionImageView4.setVisible(false);
+                        incorrect.setVisible(true);
+                        reset(stage, questionsAsked, p1, questionImageView, questionImageView2, questionImageView3, questionImageView4, questionImageView5, questionImageView6, questionImageView7, correct1, correct2, correct3, incorrect);
+                    }
+                }
+            });
+        } else if (question == 4) {
+            p1.setOnKeyPressed(new EventHandler<>() {
+                @Override
+                public void handle(KeyEvent keyEvent) {
+                    if (keyEvent.getCode().equals(KeyCode.DIGIT4)) {
+                        points += 1;
+                        questionImageView5.setVisible(false);
+                        correct1.setVisible(true);
+                        reset(stage, questionsAsked, p1, questionImageView, questionImageView2, questionImageView3, questionImageView4, questionImageView5, questionImageView6, questionImageView7, correct1, correct2, correct3, incorrect);
+                    } else if (keyEvent.getCode().equals(KeyCode.DIGIT1) || keyEvent.getCode().equals(KeyCode.DIGIT2) || keyEvent.getCode().equals(KeyCode.DIGIT3)) {
+                        questionImageView5.setVisible(false);
+                        incorrect.setVisible(true);
+                        reset(stage, questionsAsked, p1, questionImageView, questionImageView2, questionImageView3, questionImageView4, questionImageView5, questionImageView6, questionImageView7, correct1, correct2, correct3, incorrect);
+                    }
+                }
+            });
+        } else if (question == 5) {
+            p1.setOnKeyPressed(new EventHandler<>() {
+                @Override
+                public void handle(KeyEvent keyEvent) {
+                    if (keyEvent.getCode().equals(KeyCode.DIGIT1)) {
+                        points += 2;
+                        questionImageView6.setVisible(false);
+                        correct2.setVisible(true);
+                        reset(stage, questionsAsked, p1, questionImageView, questionImageView2, questionImageView3, questionImageView4, questionImageView5, questionImageView6, questionImageView7, correct1, correct2, correct3, incorrect);
+                    } else if (keyEvent.getCode().equals(KeyCode.DIGIT2) || keyEvent.getCode().equals(KeyCode.DIGIT3) || keyEvent.getCode().equals(KeyCode.DIGIT4)) {
+                        questionImageView6.setVisible(false);
+                        incorrect.setVisible(true);
+                        reset(stage, questionsAsked, p1, questionImageView, questionImageView2, questionImageView3, questionImageView4, questionImageView5, questionImageView6, questionImageView7, correct1, correct2, correct3, incorrect);
+                    }
+                }
+            });
+        } else if (question == 6) {
+            p1.setOnKeyPressed(new EventHandler<>() {
+                @Override
+                public void handle(KeyEvent keyEvent) {
+                    if (keyEvent.getCode().equals(KeyCode.DIGIT4)) {
+                        points += 3;
+                        questionImageView7.setVisible(false);
+                        correct3.setVisible(true);
+                        reset(stage, questionsAsked, p1, questionImageView, questionImageView2, questionImageView3, questionImageView4, questionImageView5, questionImageView6, questionImageView7, correct1, correct2, correct3, incorrect);
+                    } else if (keyEvent.getCode().equals(KeyCode.DIGIT1) || keyEvent.getCode().equals(KeyCode.DIGIT2) || keyEvent.getCode().equals(KeyCode.DIGIT3)) {
+                        questionImageView7.setVisible(false);
+                        incorrect.setVisible(true);
+                        reset(stage, questionsAsked, p1, questionImageView, questionImageView2, questionImageView3, questionImageView4, questionImageView5, questionImageView6, questionImageView7, correct1, correct2, correct3, incorrect);
+                    }
+                }
+            });
+        }
+    }
+
+    public void reset(Stage stage, boolean[] questionsAsked, Scene p1, ImageView questionImageView, ImageView questionImageView2, ImageView questionImageView3, ImageView questionImageView4, ImageView questionImageView5, ImageView questionImageView6, ImageView questionImageView7, ImageView correct1, ImageView correct2, ImageView correct3, ImageView incorrect) {
+        p1.setOnKeyPressed(new EventHandler<>() {
+            @Override
+            public void handle(KeyEvent keyEvent) {
+                if (keyEvent.getCode().equals(KeyCode.C)) {
+                    count++;
+                    correct1.setVisible(false);
+                    correct2.setVisible(false);
+                    correct3.setVisible(false);
+                    incorrect.setVisible(false);
+                    if (count < 7)
+                        pickQuestion(stage, p1, questionsAsked, questionImageView, questionImageView2, questionImageView3, questionImageView4, questionImageView5, questionImageView6, questionImageView7, correct1, correct2, correct3, incorrect);
+                    if (count == 7) {
+                        questionImageView.setVisible(false);
+                        questionImageView2.setVisible(false);
+                        questionImageView3.setVisible(false);
+                        questionImageView4.setVisible(false);
+                        questionImageView5.setVisible(false);
+                        questionImageView6.setVisible(false);
+                        questionImageView7.setVisible(false);
+                        System.out.println("quiz ends");
+                        stage.setScene(p1);
+                    }
+                }
+            }
+        });
     }
 
     /**
