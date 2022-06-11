@@ -1,20 +1,23 @@
 /**
  * The Latter, a game aimed to spread awareness about the adversities of gender inequality
  * <h2>Course Info:</h2>
- * ICS4U0 wit Krasteva V.
+ * ICS4U0 with Krasteva V.
+ * <p>
+ * Version 1 - 05.27.2022
+ * Added the background image for this class.
+ * <p>
+ * Version 2 - 06.03.2022
+ * <p>
+ * Version 3 - 06.10.2022
+ * Added the final scenes to this class (i.e. ways you can help and resources).
  *
- * Version 1 - 05.25.22
- * Copied code from start screen and adapted it for the end screen.
- *
- *
- *
- * @version 05.25.22
- * @author Alicia Chung & Artemis Chen & Jessica Chen
+ * @version 06.10.2022
+ * @author Alicia Chung
  */
+
 
 package com.latter.thelatter;
 
-import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.*;
 import javafx.scene.control.Button;
@@ -23,23 +26,45 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
-import java.io.IOException;
-import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.io.FileInputStream;
 
 
-public class EndScreen{
+public class EndScreen {
 
-    //private Stage primaryStage1;
-    //private Stage primaryStage2;
+    /*
+        Variable Name   Type        Description
+        escaped         ImageView   Final escape screen
+        canHelp         ImageView   Screen that shows the ways you can help
+        resources       ImageView   Screen that shows the resources you can use
+     */
 
-    public HBox endS(Button buttonM, Button buttonL, Button buttonR){
+    /**
+     * Final escape screen
+     */
+    public ImageView escaped = new ImageView();
+    /**
+     * Screen that shows the ways you can help
+     */
+    public ImageView canHelp = new ImageView();
+    /**
+     * Screen that shows the resources you can use
+     */
+    public ImageView furtherR = new ImageView();
+
+    /**
+     * Constructor for the end screen
+     * @param buttonM Middle button
+     * @param buttonL Left button
+     * @param buttonR Right button
+     * @return the group of the end screen
+     */
+    public Group endS(Button buttonM, Button buttonL, Button buttonR) {
+        Group group = new Group();
         StackPane sp = new StackPane();
 
-        try{
+        try {
             // adding images
             FileInputStream input = new FileInputStream("endscreen.png");
             Image image = new Image(input);
@@ -49,6 +74,26 @@ public class EndScreen{
             Image br = new Image(input);
             input = new FileInputStream("credits.png");
             Image bl = new Image(input);
+            FileInputStream notQ = new FileInputStream("escaped.png");
+            Image eQ = new Image(notQ);
+            escaped = new ImageView(eQ);
+            FileInputStream yH = new FileInputStream("help.png");
+            Image youHelp = new Image(yH);
+            canHelp = new ImageView(youHelp);
+            FileInputStream fR = new FileInputStream("resources further.png");
+            Image r = new Image(fR);
+            furtherR = new ImageView(r);
+
+            // additional end stuff original settings
+            escaped.setVisible(true);
+            escaped.setX(12);
+            escaped.setY(12);
+            canHelp.setVisible(false);
+            canHelp.setX(12);
+            canHelp.setY(12);
+            furtherR.setVisible(false);
+            furtherR.setX(12);
+            furtherR.setY(12);
 
             //adding image to background of console
             ImageView imageView = new ImageView(image);
@@ -66,12 +111,14 @@ public class EndScreen{
             buttonM.setTranslateY(280);
             // way to work with hovered effect here and not in a stylesheet
             buttonM.setOnMouseEntered(new EventHandler<MouseEvent>() {
-                @Override public void handle(MouseEvent mouseEvent) {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
                     buttonM.getGraphic().setEffect(hov);
                 }
             });
             buttonM.setOnMouseExited(new EventHandler<MouseEvent>() {
-                @Override public void handle(MouseEvent mouseEvent) {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
                     buttonM.setStyle("-fx-padding: 0 0 0 0;" + "-fx-background-radius: 0;" + "-fx-background-color: #18692e;");
                     buttonM.getGraphic().setEffect(norm);
                 }
@@ -82,13 +129,15 @@ public class EndScreen{
             buttonL.setTranslateY(297);
             buttonL.setStyle("-fx-padding: 0 0 0 0;" + "-fx-background-radius: 0;" + "-fx-background-color: #18692e;");
             buttonL.setOnMouseEntered(new EventHandler<MouseEvent>() {
-                @Override public void handle(MouseEvent mouseEvent) {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
                     buttonL.getGraphic().setEffect(hov);
                     // change image colour thing here
                 }
             });
             buttonL.setOnMouseExited(new EventHandler<MouseEvent>() {
-                @Override public void handle(MouseEvent mouseEvent) {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
                     buttonL.setStyle("-fx-padding: 0 0 0 0;" + "-fx-background-radius: 0;" + "-fx-background-color: #18692e;");
                     buttonL.getGraphic().setEffect(norm);
                 }
@@ -99,13 +148,15 @@ public class EndScreen{
             buttonR.setTranslateY(297);
             buttonR.setStyle("-fx-padding: 0 0 0 0;" + "-fx-background-radius: 0;" + "-fx-background-color: #18692e;");
             buttonR.setOnMouseEntered(new EventHandler<MouseEvent>() {
-                @Override public void handle(MouseEvent mouseEvent) {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
                     buttonR.getGraphic().setEffect(hov);
                     // change image colour thing here
                 }
             });
             buttonR.setOnMouseExited(new EventHandler<MouseEvent>() {
-                @Override public void handle(MouseEvent mouseEvent) {
+                @Override
+                public void handle(MouseEvent mouseEvent) {
                     buttonR.setStyle("-fx-padding: 0 0 0 0;" + "-fx-background-radius: 0;" + "-fx-background-color: #18692e;");
                     buttonR.getGraphic().setEffect(norm);
                 }
@@ -122,15 +173,19 @@ public class EndScreen{
              * <a href="https://stackoverflow.com/questions/27912628/how-to-overlap-buttons-text-over-an-image-with-javafx-8 site </a> (01/12/2015)
              */
             sp.getChildren().addAll(imageView, hbox);
-        }catch (IOException e){
+
+            group.getChildren().add(sp);
+            group.getChildren().add(escaped);
+            group.getChildren().add(canHelp);
+            group.getChildren().add(furtherR);
+            System.out.println(sp.toString());
+            System.out.println(escaped.toString());
+            System.out.println(canHelp.toString());
+            System.out.println(furtherR.toString());
+        } catch (IOException e) {
         }
 
-        HBox root = new HBox();
-        root.getChildren().add(sp);
-
-        return root;
+        return group;
     }
-
-
 }
 
