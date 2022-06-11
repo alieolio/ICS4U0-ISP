@@ -12,9 +12,11 @@
  * @author Alicia Chung
  */
 package com.latter.thelatter;
-import javafx.application.Application;
+import javafx.animation.Interpolator;
+import javafx.animation.ParallelTransition;
+import javafx.animation.RotateTransition;
+import javafx.animation.ScaleTransition;
 
-import javafx.application.Platform;
 import javafx.scene.*;
 import javafx.scene.control.Button;
 import javafx.scene.effect.ColorAdjust;
@@ -24,15 +26,102 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 
 import javafx.event.EventHandler;
-import javafx.event.ActionEvent;
 
-import javafx.stage.Stage;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
 public class StartScreen{
 
+    /*
+        Variable Name            Type                        Purpose
+        bg                       ImageView                   Storing splash image
+        bgCircle                 ImageView                   Storing png for splash screen
+        bgText                   ImageView                   Storing splash text
+        image                    Image                       Storing splash background image
+        pt                       ParallelTransition          Variable for transition of splash screen
+    */
+
+    public ImageView bg = new ImageView();
+    public ImageView bgCircle = new ImageView();
+    public ImageView bgText = new ImageView();
+    public Image image;
+    ParallelTransition pt = new ParallelTransition();
+
+    /**
+     * splash screen, simple animation that automatically
+     * transitions to the start screen.
+     *
+     * @return StackPane with all components for the scene
+     */
+    public StackPane screen(Button bM, Button bL, Button bR){
+        /**
+         * credits for animation
+         * https://edencoding.com/javafxanimation-transitions-timelines-and-animation-timers/
+         * https://www.genuinecoder.com/javafx-animation-tutorial/
+         * https://www.youtube.com/watch?v=CtLHgu978gM
+         */
+        StackPane sp = new StackPane();
+
+        // get relevant images
+        try {
+            FileInputStream input = new FileInputStream("splashBg.png");
+            image = new Image(input);
+            bg.setImage(image);
+            input = new FileInputStream("splashCircle.png");
+            image = new Image(input);
+            bgCircle.setImage(image);
+            image = new Image(new File("splashTxt.gif").toURI().toString());
+            bgText.setImage(image);
+        } catch (IOException e) {
+        }
+
+        Node r = new Rectangle(30, 30, Color.rgb(32, 89, 173));
+        //r.setFill(Color.rgb(32, 89, 173));
+        r.setTranslateY(190);
+        r.setTranslateX(-290);
+
+
+        sp.getChildren().add(bg);
+        sp.getChildren().add(bgCircle);
+        bgCircle.setTranslateY(bgCircle.getY()-55);
+        sp.getChildren().add(bgText);
+        bgText.setTranslateY(bgText.getY()+90);
+        bgText.setVisible(false);
+        sp.getChildren().add(r);
+
+        Duration d1 = Duration.millis(13000);
+        ScaleTransition bar = new ScaleTransition(d1, r);
+        bar.setByX(80);
+        bar.setInterpolator(Interpolator.EASE_BOTH);
+        bar.setOnFinished(Event ->{
+            System.out.println("bar finished");
+        });
+
+        //rotate transition
+        Duration d2 = Duration.millis(1700);
+        RotateTransition rt = new RotateTransition(d2, bgCircle);
+        rt.setByAngle(360);
+        //rt.setAutoReverse(true);
+        rt.setCycleCount(5);
+        rt.setOnFinished(Event ->{
+            bgText.setVisible(true);
+        });
+
+        //transition.play();
+        // first parallel
+        pt = new ParallelTransition(bar, rt);
+        pt.play();
+        pt.setOnFinished(Event ->{
+            sp.getChildren().add(startS(bM, bL, bR));
+        });
+
+        return sp;
+    }
     public HBox startS(Button buttonM, Button buttonL, Button buttonR){
         HBox hbox = new HBox(17);
         ImageView imageView = new ImageView();
